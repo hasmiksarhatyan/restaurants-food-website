@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -23,5 +24,6 @@ public class Restaurant {
     @ManyToOne
     private RestaurantCategory restaurantCategory;
     private  Double deliveryPrice;
-
+    @ElementCollection
+    private List<String> pictures;
 }

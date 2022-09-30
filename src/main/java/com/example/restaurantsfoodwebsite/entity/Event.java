@@ -6,12 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class Event {
 
     @Id
@@ -22,4 +24,6 @@ public class Event {
     private double price;
     @ManyToOne
     private Restaurant restaurant;
+    @ElementCollection
+    private List<String> pictures;
 }
