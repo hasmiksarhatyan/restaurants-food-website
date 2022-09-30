@@ -13,16 +13,17 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
-
+public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private Date orderAt;
+    private int id;
     @Enumerated(value = EnumType.STRING)
-    private StatusRole orderStatus;
-    private String additionalAddress;
-    private String phoneNumber;
+    private PaymetOption paymentOption;
+    private Double paymentAmount;
+    private Date paidAt;
     @ManyToOne
     private User user;
+    @ManyToOne
+    private Order order;
+
 }

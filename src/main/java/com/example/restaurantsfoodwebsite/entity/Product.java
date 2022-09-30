@@ -6,23 +6,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
-
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private Date orderAt;
-    @Enumerated(value = EnumType.STRING)
-    private StatusRole orderStatus;
-    private String additionalAddress;
-    private String phoneNumber;
+    private int id;
+    private String name;
+    private String description;
+    private Double price;
     @ManyToOne
-    private User user;
+    private ProductCategory productCategory;
+    @ManyToOne
+    private Restaurant restaurant;
 }
+
