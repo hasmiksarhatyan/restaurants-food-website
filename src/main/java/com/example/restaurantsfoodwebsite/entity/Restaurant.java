@@ -13,17 +13,17 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class Event {
-
+public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
     private String name;
-    private String description;
-    private double price;
+    private String address;
+    private String email;
+    private String phone;
     @ManyToOne
-    private Restaurant restaurant;
+    private RestaurantCategory restaurantCategory;
+    private  Double deliveryPrice;
     @ElementCollection
     private List<String> pictures;
 }

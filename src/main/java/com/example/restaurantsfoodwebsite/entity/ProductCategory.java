@@ -6,24 +6,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class Event {
-
+public class ProductCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
     private String name;
-    private String description;
-    private double price;
-    @ManyToOne
-    private Restaurant restaurant;
-    @ElementCollection
-    private List<String> pictures;
+
 }

@@ -13,6 +13,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "orders")
 public class Order {
 
     @Id
@@ -22,6 +23,7 @@ public class Order {
     @Enumerated(value = EnumType.STRING)
     private StatusRole orderStatus;
     private String additionalAddress;
+    private String phoneNumber;
     @ManyToOne
     private User user;
 }

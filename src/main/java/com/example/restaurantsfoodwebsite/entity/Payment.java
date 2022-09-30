@@ -6,24 +6,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Date;
 
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class Event {
-
+public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String name;
-    private String description;
-    private double price;
+    private int id;
+    @Enumerated(value = EnumType.STRING)
+    private PaymetOption paymentOption;
+    private Double paymentAmount;
+    private Date paidAt;
     @ManyToOne
-    private Restaurant restaurant;
-    @ElementCollection
-    private List<String> pictures;
+    private User user;
+    @ManyToOne
+    private Order order;
+
 }
