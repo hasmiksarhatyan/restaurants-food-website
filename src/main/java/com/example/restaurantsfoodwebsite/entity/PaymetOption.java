@@ -3,5 +3,5 @@ package com.example.restaurantsfoodwebsite.entity;
 public enum PaymetOption {
 
     CASH,
-    BYCARD
+    BY_CARD
 }

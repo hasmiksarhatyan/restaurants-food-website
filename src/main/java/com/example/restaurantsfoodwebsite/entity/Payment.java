@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,16 +15,17 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Payment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Enumerated(value = EnumType.STRING)
     private PaymetOption paymentOption;
     private Double paymentAmount;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date paidAt;
     @ManyToOne
     private User user;
     @ManyToOne
     private Order order;
-
 }
