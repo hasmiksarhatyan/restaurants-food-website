@@ -1,7 +1,7 @@
 package com.example.restaurantsfoodwebsite.entity;
 
-public enum PaymetOption {
+public enum PaymentOption {
 
     CASH,
-    BY_CARD
+    CREDIT_CARD
 }

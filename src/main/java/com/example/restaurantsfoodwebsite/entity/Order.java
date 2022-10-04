@@ -23,7 +23,7 @@ public class Order {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date orderAt;
     @Enumerated(value = EnumType.STRING)
-    private StatusRole orderStatus;
+    private OrderStatus orderStatus;
     private String additionalAddress;
     private String phoneNumber;
     @ManyToOne

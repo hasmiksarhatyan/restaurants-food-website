@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -39,8 +38,7 @@ public class UserController {
 
     @PostMapping("/users/add")
     public String addUser(@ModelAttribute User user, ModelMap modelMap) throws IOException {
-        Optional<User> userByEmail = userRepository.findByEmail(user.getEmail());
-        if (userByEmail.isPresent()) {
+        if (userRepository.existsByEmailIgnoreCase(user.getEmail())) {
             modelMap.addAttribute("errorMessageEmail", "Email already in use");
             return "/addUser";
         }

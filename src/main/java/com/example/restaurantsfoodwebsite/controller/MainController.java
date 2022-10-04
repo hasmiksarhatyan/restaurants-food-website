@@ -1,7 +1,7 @@
 package com.example.restaurantsfoodwebsite.controller;
 
 import com.example.restaurantsfoodwebsite.entity.User;
-import com.example.restaurantsfoodwebsite.entity.UserRole;
+import com.example.restaurantsfoodwebsite.entity.Role;
 import com.example.restaurantsfoodwebsite.security.CurrentUser;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -30,11 +30,11 @@ public class MainController {
     public String loginSuccess(@AuthenticationPrincipal CurrentUser currentUser) {
         if (currentUser != null) {
             User user = currentUser.getUser();
-            if (user.getRole() == UserRole.CUSTOMER) {
+            if (user.getRole() == Role.CUSTOMER) {
                 return "redirect:/customer";
-            } else if (user.getRole() == UserRole.MANAGER) {
+            } else if (user.getRole() == Role.MANAGER) {
                 return "redirect:/manager";
-            } else if (user.getRole() == UserRole.RESTAURANT_OWNER) {
+            } else if (user.getRole() == Role.RESTAURANT_OWNER) {
                 return "redirect:/restaurantOwner";
             }
         }

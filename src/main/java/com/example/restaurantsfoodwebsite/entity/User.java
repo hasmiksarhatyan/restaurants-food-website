@@ -29,5 +29,5 @@ public class User {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date updateAt;
     @Enumerated(value = EnumType.STRING)
-    private UserRole role;
+    private Role role;
 }

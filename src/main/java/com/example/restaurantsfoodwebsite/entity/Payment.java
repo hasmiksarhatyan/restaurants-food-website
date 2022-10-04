@@ -20,7 +20,7 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Enumerated(value = EnumType.STRING)
-    private PaymetOption paymentOption;
+    private PaymentOption paymentOption;
     private Double paymentAmount;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date paidAt;
