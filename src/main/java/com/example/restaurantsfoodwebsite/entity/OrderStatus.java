@@ -1,6 +1,6 @@
 package com.example.restaurantsfoodwebsite.entity;
 
-public enum StatusRole {
+public enum OrderStatus {
 
     NEW,
     IN_PROGRESS,

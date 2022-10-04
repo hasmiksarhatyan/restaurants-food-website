@@ -1,6 +1,6 @@
 package com.example.restaurantsfoodwebsite.entity;
 
-public enum UserRole {
+public enum Role {
 
     CUSTOMER,
     MANAGER,

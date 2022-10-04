@@ -1,0 +1,19 @@
+package com.example.restaurantsfoodwebsite.security;
+
+import com.example.restaurantsfoodwebsite.entity.User;
+import org.springframework.security.core.authority.AuthorityUtils;
+
+public class CurrentUser extends org.springframework.security.core.userdetails.User {
+
+    private final User user = new User();
+
+    public CurrentUser(User user) {
+        super(user.getEmail(), user.getPassword(), AuthorityUtils.createAuthorityList(user.getRole().name()));
+    }
+
+    public User getUser() {
+        return user;
+    }
+}
+
+

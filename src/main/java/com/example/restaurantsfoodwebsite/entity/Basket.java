@@ -19,7 +19,6 @@ public class Basket {
     private Integer id;
     private double quantity;
     @ManyToOne
-
     private Product product;
     @ManyToOne
     private User user;

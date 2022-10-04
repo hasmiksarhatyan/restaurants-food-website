@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Main page</title>
-
+    <title>Manager page</title>
 </head>
 <body>
 
@@ -11,7 +10,6 @@
 
 <th:block th:if="${currentUser == null}">
     <a href="/users/add">Register</a><br>
-    <a href="/loginPage">Login</a><br><br>
 </th:block>
 
 <th:block th:if="${currentUser != null}">
