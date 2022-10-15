@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -20,12 +21,23 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date orderAt;
-    @Enumerated(value = EnumType.STRING)
-    private OrderStatus orderStatus;
+
     private String additionalAddress;
-    private String phoneNumber;
+
+    private String additionalPhone;
+
+    @CreationTimestamp
+    private LocalDateTime orderAt;
+
+    @Enumerated(value = EnumType.STRING)
+    private OrderStatus status;
+
+    @OneToOne
+    private Payment payment;
+
+    @OneToMany
+    private List<Product> products;
+
     @ManyToOne
     private User user;
 }

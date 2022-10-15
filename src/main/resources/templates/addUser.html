@@ -14,13 +14,6 @@
     <input type="text" name="email" placeholder="please input email"><br>
     <span style="color: red" th:if="${errorMessageEmail != null}" th:text="${errorMessageEmail}"></span><br>
     <input type="password" name="password" placeholder="please input password"><br>
-    <select name="role">
-        <option value="CUSTOMER">Customer</option>
-        <option value="MANAGER">Manager</option>
-        <option value="RESTAURANT_OWNER">Restaurant Owner</option>
-    </select><br>
-    <input type="date" name="createdAt">
-    <input type="date" name="updateAt">
     <input type="submit" value="Add">
 </form>
 

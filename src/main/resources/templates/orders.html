@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Show All Orders</title>
+</head>
+<body>
+
+<table>
+    <tr>
+        <th>Additional Address</th>
+        <th>Order Status/th>
+        <th>Phone Number</th>
+        <th>User Name</th>
+    </tr>
+
+    <tr th:each="order: ${orders}">
+        <td th:text="${order.additionalAddress}"></td>
+        <td th:text="${order.orderStatus}"></td>
+        <td th:text="${order.phoneNumber}"></td>
+        <td th:text="${order.userOverview.firstName}"></td>
+
+        <td><a th:href="@{'/orders/delete/' + ${order.id}}">Delete the order</a></td>
+        <br th:if="errorMessageId !=null">
+        <span th:if="errorMessageId !=null" th:text="${errorMessageId}"></span>
+
+    </tr>
+
+    <a href="/orders/add">To add a new order</a>
+
+</table>
+</body>
+</html>

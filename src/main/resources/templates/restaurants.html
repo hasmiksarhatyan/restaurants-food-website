@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurants Page</title>
+</head>
+<body>
+
+<table>
+
+    <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Delivery price</th>
+        <th>Restaurant Category</th>
+        <th>Restaurant Pictures</th>
+    </tr>
+
+    <tr th:each="restaurant:${restaurants}">
+        <td th:text="${restaurant.name}"></td>
+        <td th:text="${restaurant.address}"></td>
+        <td th:text="${restaurant.email}"></td>
+        <td th:text="${restaurant.phone}"></td>
+        <td th:text="${restaurant.deliveryPrice}"></td>
+        <td th:text="${restaurant.restaurantCategoryOverview.name}"></td>
+        <td><a th:href="@{/restaurants/delete(id=${restaurant.id})}">Delete the restaurant</a></td>
+        <br th:if="errorMessageId!=null">
+        <span style="color: red" th:if="errorMessageId!=null" th:text="${errorMessageId}"></span>
+
+        <td th:if="${restaurant.pictures != null && !restaurant.pictures.isEmpty()}"
+            th:each="picture:${restaurant.pictures}">
+            <img th:src="@{/restaurants/getImages(fileName=${picture})}"></td>
+        <img th:if="${restaurant.pictures == null || restaurant.pictures.isEmpty()}" src="">
+    </tr>
+    <a href="/restaurants/add">Add New Restaurant</a>
+
+</table>
+
+</body>
+</html>

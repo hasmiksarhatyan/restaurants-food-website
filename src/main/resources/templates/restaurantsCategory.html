@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant Category Page</title>
+</head>
+<body>
+<table>
+
+    <tr>
+        <th>Name</th>
+    </tr>
+
+    <tr th:each="category:${restaurantsCategory}">
+        <td th:text="${category.name}"></td>
+        <td><a th:href="@{/restaurantsCategory/delete(id=${category.id})}">Delete the Type of the Restaurant</a></td><br th:if="errorMessageId !=null">
+        <span style="color: red"  th:if="errorMessageId !=null"  th:text="${errorMessageId}"></span>
+    </tr>
+
+    <a href="/restaurantsCategory/add">Add a New Type of Restaurant</a>
+
+</table>
+
+</body>
+</html>

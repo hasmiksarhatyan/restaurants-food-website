@@ -17,9 +17,13 @@ public class Basket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private double quantity;
+
     @ManyToOne
     private Product product;
+
     @ManyToOne
     private User user;
 }
+

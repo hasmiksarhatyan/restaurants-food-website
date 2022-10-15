@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Restaurant</title>
+</head>
+<body>
+
+<h3>Add Restaurant</h3>
+
+<form action="/restaurants/add" method="post" enctype="multipart/form-data">
+  <input type="text" name="name" placeholder="please input first name"><br>
+  <input type="text" name="address" placeholder="please input last address"><br>
+  <input type="email" name="email" placeholder="please input email"><br>
+  <span style="color: red" th:if="errorMessageEmail != null" th:text="${errorMessageEmail}"></span><br th:if="errorMessageEmail != null">
+  <input type="text" name="phone" placeholder="please input last phone"><br>
+  <input type="text" name="deliveryPrice" placeholder="please input last delivery price"><br>
+  <h3>Please select the category</h3>
+  <select name="restaurantCategoryId">
+    <option th:each="category:${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+  </select><br>
+  <input type="file" name="restaurantImage" multiple><br th:if="${errorMessageFile != null}"><br>
+  <span style="color: red" th:if="${errorMessageFile != null}" th:text="${errorMessageFile}"></span><br th:if="${errorMessageFile != null}">
+
+  <input type="submit" value="Add Restaurant">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Show All Payments</title>
+</head>
+<body>
+
+<table>
+    <tr>
+        <th>Paid at</th>
+        <th>Payment Amount</th>
+        <th>Payment Option</th>
+        <th>Order</th>
+        <th>User</th>
+    </tr>
+
+    <tr th:each="payment: ${payments}">
+        <td th:text="${payment.paidAt}"></td>
+        <td th:text="${payment.paymentAmount}"></td>
+        <td th:text="${payment.paymentOption}"></td>
+        <td th:text="${payment.orderOverview}"></td>
+        <td th:text="${payment.userOverview}"></td>
+
+        <td><a th:href="@{/payments/delete(id=${payment.id})}">Delete the payment</a></td>
+        <br th:if="errorMessageId !=null">
+        <span style="color: red" th:if="errorMessageId !=null" th:text="errorMessageId"></span>
+    </tr>
+    <a href="/payments/add">To add a new payments</a>
+
+</table>
+</body>
+</html>

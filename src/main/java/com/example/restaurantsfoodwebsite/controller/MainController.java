@@ -31,7 +31,7 @@ public class MainController {
         if (currentUser != null) {
             User user = currentUser.getUser();
             if (user.getRole() == Role.CUSTOMER) {
-                return "redirect:/customer";
+                return "redirect:/users/customer";
             } else if (user.getRole() == Role.MANAGER) {
                 return "redirect:/manager";
             } else if (user.getRole() == Role.RESTAURANT_OWNER) {

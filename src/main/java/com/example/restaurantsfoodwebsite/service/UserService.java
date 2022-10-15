@@ -1,9 +1,9 @@
 package com.example.restaurantsfoodwebsite.service;
 
+import com.example.restaurantsfoodwebsite.dto.user.UserOverview;
 import com.example.restaurantsfoodwebsite.dto.user.ChangePasswordDto;
 import com.example.restaurantsfoodwebsite.dto.user.CreateUserDto;
 import com.example.restaurantsfoodwebsite.dto.user.EditUserDto;
-import com.example.restaurantsfoodwebsite.dto.user.UserOverview;
 import com.example.restaurantsfoodwebsite.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

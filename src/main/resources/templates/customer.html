@@ -1,21 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
-    <meta charset="UTF-8">
-    <title>Customer page</title>
-
+  <meta charset="UTF-8">
+  <title>Customer page</title>
 </head>
 <body>
 
-<a href="/users">See All Users</a><br>
-
 <th:block th:if="${currentUser == null}">
-    <a href="/users/add">Register</a><br>
+  <a href="/users/add">Register</a><br>
 </th:block>
 
 <th:block th:if="${currentUser != null}">
-    <a href="/logout"> Sign Out</a>
+  <a href="/logout"> Sign Out</a>
 </th:block>
+
+<a href="/restaurants">See All Restaurants</a>
+<a href="/restaurantsCategory">See all Types of Restaurant</a>
+
+<table>
+
+  <tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Email</th>
+  </tr>
+  <tr>
+    <td th:text="${user.firstName}"></td>
+    <td th:text="${user.lastName}"></td>
+    <td th:text="${user.email}"></td>
+  </tr>
+
+</table>
+
+<span style="color: red" th:if="${errorMessage!=null}" th:text="${errorMessage}"></span><br>
+
+<h5>Change First Name:</h5>
+<form th:action="@{'/users/edit/' + ${user.id}}" method="post">
+  <label>
+    <input type="text" name="firstName" placeholder="Please input first name">
+    <input type="text" name="lastName" placeholder="Please input last name">
+  </label><br>
+  <input type="submit" value="Change">
+</form><br>
+
+<h5>Change Password:</h5>
+
+<form action="/users/changePassword" method="post">
+  <label>
+    <input type="text" name="oldPassword" placeholder="Please input valid password"><br>
+    <input type="text" name="newPassword1" placeholder="Please input new password"><br>
+    <input type="text" name="newPassword2" placeholder="Please input new password again">
+  </label><br>
+  <input type="submit" value="Change">
+</form>
 
 </body>
 </html>
