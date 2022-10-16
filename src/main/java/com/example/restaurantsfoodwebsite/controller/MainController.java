@@ -30,12 +30,10 @@ public class MainController {
     public String loginSuccess(@AuthenticationPrincipal CurrentUser currentUser) {
         if (currentUser != null) {
             User user = currentUser.getUser();
-            if (user.getRole() == Role.CUSTOMER) {
+            if (user.getRole() == Role.CUSTOMER || user.getRole() == Role.RESTAURANT_OWNER) {
                 return "redirect:/users/customer";
             } else if (user.getRole() == Role.MANAGER) {
-                return "redirect:/manager";
-            } else if (user.getRole() == Role.RESTAURANT_OWNER) {
-                return "redirect:/restaurantOwner";
+                return "manager";
             }
         }
         return "redirect:/";

@@ -1,7 +1,6 @@
 package com.example.restaurantsfoodwebsite.dto.restaurant;
 
-import com.example.restaurantsfoodwebsite.dto.restaurantCategory.RestaurantCategoryOverview;
-import com.example.restaurantsfoodwebsite.entity.User;
+import com.example.restaurantsfoodwebsite.entity.RestaurantCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,15 +12,13 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RestaurantOverview {
+public class EditRestaurantDto {
 
-    private Integer id;
     private String name;
     private String address;
     private String email;
     private String phone;
-    private RestaurantCategoryOverview RestaurantCategoryOverview;
+    private RestaurantCategory restaurantCategory;
     private Double deliveryPrice;
     private List<String> pictures;
-    private User user;
 }

@@ -2,9 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Restaurants Page</title>
+    <title>Restaurant Owner Page</title>
 </head>
 <body>
+<th:block th:if="${currentUser == null}">
+    <a href="/users/add">Register</a><br>
+</th:block>
+
+<th:block th:if="${currentUser != null}">
+    <a href="/logout"> Sign Out</a>
+</th:block>
 
 <table>
 
@@ -21,29 +28,34 @@
     <tr th:each="restaurant:${restaurants.content}">
         <td th:text="${restaurant.name}"></td>
         <td th:text="${restaurant.address}"></td>
-        <span style="color: red" th:if="${errorMessage!=null}" th:text="${errorMessage}"></span><br
-            th:if="${errorMessage!=null}">
+        <span style="color: red" th:if="${error!=null}" th:text="${error}"></span><br
+            th:if="${error!=null}">
         <td th:text="${restaurant.email}"></td>
         <td th:text="${restaurant.phone}"></td>
         <td th:text="${restaurant.deliveryPrice}"></td>
         <td th:text="${restaurant.restaurantCategoryOverview.name}"></td>
 
-        <li th:if="${currentUser != null && currentUser.role.name == 'MANAGER'}">
-            <td><a th:href="@{/restaurants/delete(id=${restaurant.id})}">Delete the restaurant</a></td>
-            <br th:if="${errorMessageId!=null}">
-            <span style="color: red" th:if="${errorMessageId!=null}" th:text="${errorMessageId}"></span></li>
-
         <td th:if="${restaurant.pictures != null && !restaurant.pictures.isEmpty()}"
             th:each="picture:${restaurant.pictures}">
             <img th:src="@{/restaurants/getImages(fileName=${picture})}"></td>
         <img th:if="${restaurant.pictures == null || restaurant.pictures.isEmpty()}" src="">
+
+
+        <td><a th:href="@{'/restaurants/delete/'+ ${restaurant.id}}">Delete the restaurant</a></td>
+        <br th:if="${errorMessageId!=null}">
+        <span style="color: red" th:if="${errorMessageId!=null}" th:text="${errorMessageId}"></span>
+
+        <td><a th:href="@{'/restaurants/edit/' + ${restaurant.id}}">Edit the restaurant</a></td>
+        <br th:if="${errorMessageEdit!=null}">
+        <span style="color: red" th:if="${errorMessageEdit!=null}" th:text="${errorMessageEdit}"></span>
+
     </tr>
+
 
 </table>
 
-<li th:if="${currentUser != null && currentUser.role.name == 'MANAGER'}">
-    <a href="/restaurants/add">Add New Restaurant</a>
-</li>
+<a href="/restaurants/add">Add New Restaurant</a><br>
+<a href="/restaurantsCategory/add">Add a New Type of Restaurant</a><br>
 
 <div th:if="${restaurants.totalPages>0}" class="pagination"
      th:each="pageNumber:${pageNumbers}">
@@ -51,6 +63,8 @@
        th:text="${pageNumber}"
        th:class="${pageNumber==restaurants.number+1}? active"></a>
 </div>
+
+<span th:if="${errorMessageEdit != null}" th:text="${errorMessageEdit}"></span>
 
 </body>
 </html>

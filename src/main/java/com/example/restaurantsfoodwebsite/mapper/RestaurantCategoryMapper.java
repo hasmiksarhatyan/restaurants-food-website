@@ -4,7 +4,13 @@ import com.example.restaurantsfoodwebsite.dto.restaurantCategory.CreateRestauran
 import com.example.restaurantsfoodwebsite.dto.restaurantCategory.RestaurantCategoryOverview;
 import com.example.restaurantsfoodwebsite.entity.RestaurantCategory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -21,6 +27,14 @@ public class RestaurantCategoryMapper {
         return RestaurantCategory.builder()
                 .name(dto.getName())
                 .build();
+    }
+
+    public Page<RestaurantCategoryOverview> mapToOverviewPage(Page<RestaurantCategory> categories, Pageable pageable) {
+        List<RestaurantCategoryOverview> categoryOverviews = new ArrayList<>();
+        for (RestaurantCategory category : categories) {
+            categoryOverviews.add(mapToOverview(category));
+        }
+        return new PageImpl<>(categoryOverviews, pageable, categoryOverviews.size());
     }
 }
 

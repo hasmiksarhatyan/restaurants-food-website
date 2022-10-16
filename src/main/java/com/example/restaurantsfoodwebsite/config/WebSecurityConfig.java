@@ -1,6 +1,7 @@
 package com.example.restaurantsfoodwebsite.config;
 
 import com.example.restaurantsfoodwebsite.entity.Role;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,10 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -38,13 +39,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/users").authenticated()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/loginPage").permitAll()
                 .antMatchers("/users/add").permitAll()
+                .antMatchers("/restaurants").permitAll()
+                .antMatchers("/loginSuccess").permitAll()
+                .antMatchers("/restaurantsCategory").permitAll()
+                .antMatchers("/users").hasAuthority(Role.MANAGER.name())
                 .antMatchers("/users/delete").hasAuthority(Role.MANAGER.name())
                 .antMatchers("/manager").hasAuthority(Role.MANAGER.name())
-                .antMatchers("/customer").hasAuthority(Role.CUSTOMER.name())
-                .antMatchers("/restaurantOwner").hasAuthority(Role.RESTAURANT_OWNER.name())
-                .anyRequest().permitAll();
+                .antMatchers("/restaurants/add").authenticated()
+                .antMatchers("/restaurantsCategory/add").authenticated()
+                .anyRequest().authenticated();
     }
 
     @Bean
