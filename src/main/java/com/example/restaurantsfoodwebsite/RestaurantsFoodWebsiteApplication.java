@@ -33,6 +33,7 @@ public class RestaurantsFoodWebsiteApplication implements CommandLineRunner {
                     .email("admin@mail.com")
                     .password(passwordEncoder.encode("admin"))
                     .role(Role.MANAGER)
+                    .enabled(true)
                     .build());
         }
     }

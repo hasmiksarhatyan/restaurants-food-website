@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant Owner Page</title>
+</head>
+<body>
+<th:block th:if="${currentUser == null}">
+    <a href="/users/add">Register</a><br>
+</th:block>
+
+<th:block th:if="${currentUser != null}">
+    <a href="/logout"> Sign Out</a>
+</th:block>
+
+<h5>Edit Information About Restaurant:</h5>
+<form th:action="@{'/restaurants/editRestaurant/' + ${restaurantId}}" method="post">
+    <label>
+        <input type="text" name="name" placeholder="Please input name">
+        <input type="text" name="address" placeholder="Please input address">
+        <input type="email" name="email" placeholder="Please input">
+        <input type="text" name="phone" placeholder="Please input">
+        <input type="number" name="deliveryPrice" placeholder="Please input delivery price">
+        <h3>Please select the category</h3>
+        <select name="restaurantCategory">
+            <option th:each="category:${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+        </select><br>
+
+        <!--                <input type="file" name="restaurantImage" multiple><br th:if="${errorMessageFile != null}">-->
+        <!--                <span style="color: red" th:if="${errorMessageFile != null}" th:text="${errorMessageFile}"></span><br-->
+        <!--                    th:if="${errorMessageFile != null}">-->
+    </label><br>
+    <input type="submit" value="Update">
+</form>
+
+
+</body>
+</html>

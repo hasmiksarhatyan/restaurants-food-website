@@ -24,6 +24,7 @@ public interface UserService {
 
     void editUser(EditUserDto dto, User user);
 
+//    UserOverview getById(int id);
 }
 
 

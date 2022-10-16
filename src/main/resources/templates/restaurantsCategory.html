@@ -11,15 +11,23 @@
         <th>Name</th>
     </tr>
 
-    <tr th:each="category:${restaurantsCategory}">
+    <tr th:each="category:${categories.content}">
         <td th:text="${category.name}"></td>
-        <td><a th:href="@{/restaurantsCategory/delete(id=${category.id})}">Delete the Type of the Restaurant</a></td><br th:if="errorMessageId !=null">
-        <span style="color: red"  th:if="errorMessageId !=null"  th:text="${errorMessageId}"></span>
-    </tr>
+        <td><a th:if="${currentUser != null && currentUser.role.name == 'MANAGER'}" th:href="@{'/restaurantsCategory/delete/'+ ${category.id}}">Delete the Type of the Restaurant</></td>
+        <br th:if="errorMessageId !=null">
+        <span style="color: red" th:if="errorMessageId !=null" th:text="${errorMessageId}"></span>
+        inch?
 
     <a href="/restaurantsCategory/add">Add a New Type of Restaurant</a>
 
 </table>
+
+<div th:if="${categories.totalPages>0}" class="pagination"
+     th:each="pageNumber:${pageNumbers}">
+    <a th:href="@{/restaurantsCategory(size=${categories.size}, page=${pageNumber})}"
+       th:text="${pageNumber}"
+       th:class="${pageNumber==categories.number+1}? active"></a>
+</div>
 
 </body>
 </html>

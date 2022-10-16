@@ -7,6 +7,8 @@ import com.example.restaurantsfoodwebsite.mapper.RestaurantCategoryMapper;
 import com.example.restaurantsfoodwebsite.repository.RestaurantCategoryRepository;
 import com.example.restaurantsfoodwebsite.service.RestaurantCategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,14 +22,31 @@ public class RestaurantCategoryServiceImpl implements RestaurantCategoryService 
     private final RestaurantCategoryRepository restaurantCategoryRepository;
 
     @Override
-    public List<RestaurantCategoryOverview> findAll() {
-        List<RestaurantCategory> categories = restaurantCategoryRepository.findAll();
-        List<RestaurantCategoryOverview> categoriesOverviews = new ArrayList<>();
-        for (RestaurantCategory category : categories) {
-            categoriesOverviews.add(categoryMapper.mapToOverview(category));
-        }
-        return categoriesOverviews;
+    public Page<RestaurantCategoryOverview> findAll(Pageable pageable) {
+        return categoryMapper.mapToOverviewPage(restaurantCategoryRepository.findAll(pageable), pageable);
     }
+
+    @Override
+    public List<RestaurantCategoryOverview> findAll() {
+        List<RestaurantCategory> allCategories = restaurantCategoryRepository.findAll();
+        List<RestaurantCategoryOverview> restaurantCategoryOverviews = new ArrayList<>();
+        for (RestaurantCategory category : allCategories) {
+            restaurantCategoryOverviews.add(categoryMapper.mapToOverview(category));
+        }
+        return restaurantCategoryOverviews;
+    }
+
+
+//    @Override
+//    public List<RestaurantCategoryOverview> findAll() {
+//        List<RestaurantCategory> categories = restaurantCategoryRepository.findAll();
+//        List<RestaurantCategoryOverview> categoriesOverviews = new ArrayList<>();
+//        for (RestaurantCategory category : categories) {
+//            categoriesOverviews.add(categoryMapper.mapToOverview(category));
+//        }
+//        return categoriesOverviews;
+//    }
+
 
     @Override
     public void addRestaurantCategory(CreateRestaurantCategoryDto dto) {
