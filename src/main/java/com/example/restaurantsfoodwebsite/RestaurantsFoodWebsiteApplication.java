@@ -16,6 +16,7 @@ import java.util.Optional;
 @SpringBootApplication
 @RequiredArgsConstructor
 public class RestaurantsFoodWebsiteApplication implements CommandLineRunner {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
