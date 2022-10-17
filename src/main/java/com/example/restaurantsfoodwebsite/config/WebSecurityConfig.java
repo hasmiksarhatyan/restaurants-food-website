@@ -41,14 +41,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/loginPage").permitAll()
                 .antMatchers("/users/add").permitAll()
                 .antMatchers("/restaurants").permitAll()
+                .antMatchers("/restaurants/add").authenticated()
+                .antMatchers("/restaurants/myRestaurants").hasAuthority(Role.RESTAURANT_OWNER.name())
                 .antMatchers("/loginSuccess").permitAll()
                 .antMatchers("/restaurantsCategory").permitAll()
                 .antMatchers("/users").hasAuthority(Role.MANAGER.name())
                 .antMatchers("/users/delete").hasAuthority(Role.MANAGER.name())
                 .antMatchers("/manager").hasAuthority(Role.MANAGER.name())
-                .antMatchers("/restaurants/add").authenticated()
                 .antMatchers("/restaurantsCategory/add").authenticated()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
     }
 
     @Bean
