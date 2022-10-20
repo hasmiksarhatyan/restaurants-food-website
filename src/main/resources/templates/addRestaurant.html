@@ -45,109 +45,12 @@
     <title>Foogra - Discover & Book the best restaurants at the best price</title>
 
     <!-- Favicons-->
-    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" type="/image/x-icon" href="/img/apple-touch-icon-57x57-precomposed.png">
-    <link rel="apple-touch-icon" type="/image/x-icon" sizes="72x72" href="/img/apple-touch-icon-72x72-precomposed.png">
-    <link rel="apple-touch-icon" type="/image/x-icon" sizes="114x114"
-          href="/img/apple-touch-icon-114x114-precomposed.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144"
-          href="/img/apple-touch-icon-144x144-precomposed.png">
 
-    <!-- GOOGLE WEB FONT -->
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
-    <link rel="preload" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap"
-          as="fetch" crossorigin="anonymous">
-    <script type="text/javascript">
-        !function (e, n, t) {
-            "use strict";
-            var o = "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap",
-                r = "__3perf_googleFonts_c2536";
-
-            function c(e) {
-                (n.head || n.body).appendChild(e)
-            }
-
-            function a() {
-                var e = n.createElement("link");
-                e.href = o, e.rel = "stylesheet", c(e)
-            }
-
-            function f(e) {
-                if (!n.getElementById(r)) {
-                    var t = n.createElement("style");
-                    t.id = r, c(t)
-                }
-                n.getElementById(r).innerHTML = e
-            }
-
-            e.FontFace && e.FontFace.prototype.hasOwnProperty("display") ? (t[r] && f(t[r]), fetch(o).then(function (e) {
-                return e.text()
-            }).then(function (e) {
-                return e.replace(/@font-face {/g, "@font-face{font-display:swap;")
-            }).then(function (e) {
-                return t[r] = e
-            }).then(f).catch(a)) : a()
-        }(window, document, localStorage);
-    </script>
-
-    <!-- BASE CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/style.css" rel="stylesheet">
-
-    <!-- SPECIFIC CSS -->
-    <link href="/css/submit.css" rel="stylesheet">
-
-    <!-- ALTERNATIVE COLORS CSS -->
-    <link href="//submit-restaurant.html#" id="colors" rel="stylesheet">
-
+    <th:block th:insert="fragments/fragment::headerImport"></th:block>
 </head>
 
 <body>
-
-
-<header class="header clearfix element_to_stick">
-    <div class="container">
-        <div id="logo">
-            <a href="index.html">
-                <img src="/img/logo.svg" width="140" height="35" alt="" class="logo_normal">
-                <img src="/img/logo_sticky.svg" width="140" height="35" alt="" class="logo_sticky">
-            </a>
-        </div>
-
-        <ul id="top_menu">
-            <th:block th:if="${currentUser == null}">
-            <li><a href="/loginPage"  id="sign-in" class="login">Sign In</a></li>
-            </th:block>
-            <th:block th:if="${currentUser != null}">
-            <li><a href="/logout" id="sign-out" >Sign Out</a></li>
-            </th:block>
-        </ul>
-
-        <!-- /top_menu -->
-        <a href="//submit-restaurant.html#0" class="open_close">
-            <i class="icon_menu"></i><span>Menu</span>
-        </a>
-        <nav class="main-menu">
-
-            <div id="header_menu">
-                <a href="//submit-restaurant.html#0" class="open_close">
-                    <i class="icon_close"></i><span>Menu</span>
-                </a>
-            </div>
-
-            <ul>
-                <li class="submenu">
-                    <a href="/" class="show-submenu">Home</a>
-                </li>
-                <li class="submenu">
-                    <a href="/restaurants/myRestaurants" class="show-submenu">My Restaurants</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</header>
-<!-- /header -->
+<th:block th:insert="fragments/fragment::header"></th:block>
 
 <main>
     <div class="hero_single inner_pages background-image" data-background="url(img/hero_submit.jpg)">
@@ -248,7 +151,7 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <input type="text" class="form-control" placeholder="Restaurant Name"
-                                           name="name" id="restaurantname_register">
+                                           name="name">
                                 </div>
                             </div>
                         </div>
@@ -257,11 +160,13 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <input type="text" class="form-control" placeholder="Address"
-                                           name="address" id="address_register">
+                                           name="address">
                                 </div>
                             </div>
                         </div>
 
+                        <span style="color: red" th:if="${errorMessageEmail != null}"
+                              th:text="${errorMessageEmail}"></span><br th:if="${errorMessageEmail != null}">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
@@ -270,9 +175,6 @@
                                 </div>
                             </div>
                         </div>
-                        <span style="color: red" th:if="${errorMessageEmail != null}"
-                              th:text="${errorMessageEmail}"></span><br th:if="${errorMessageEmail != null}">
-
 
                         <div class="row">
                             <div class="col-lg-12">
@@ -293,12 +195,11 @@
                         </div>
                         <!-- /row -->
 
-
                         <!-- /row -->
                         <div class="row add_bottom_15">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <select class="form-control" name="restaurantCategoryId"> id="country_register">
+                                    <select class="form-control" name="restaurantCategoryId">
                                         <option th:each="category:${categories}" th:value="${category.id}"
                                                 th:text="${category.name}"></option>
                                     </select>
@@ -307,20 +208,20 @@
                         </div>
 
                         <div class="row">
-<!--                            <div class="col-lg-12">-->
-<!--                                <div class="form-group">-->
+                            <div class="col-lg-12">
+                                <div class="form-group">
                                     <input type="file" name="restaurantImage" multiple>
                                     <br th:if="${errorMessageFile != null}">
                                     <span style="color: red" th:if="${errorMessageFile != null}"
                                           th:text="${errorMessageFile}"></span><br
                                         th:if="${errorMessageFile != null}">
-<!--                                </div>-->
-<!--                            </div>-->
+                                </div>
+                            </div>
                         </div>
 
                         <!-- /row -->
                         <div class="form-group text-center">
-                            <input type="submit" class="btn_1" value="Submit" id="submit-register"></div>
+                            <input type="submit" class="btn_1" value="Submit"></div>
                     </form>
                 </div>
             </div>

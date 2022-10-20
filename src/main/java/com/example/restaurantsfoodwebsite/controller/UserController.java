@@ -4,8 +4,11 @@ import com.example.restaurantsfoodwebsite.dto.user.ChangePasswordDto;
 import com.example.restaurantsfoodwebsite.dto.user.CreateUserDto;
 import com.example.restaurantsfoodwebsite.dto.user.EditUserDto;
 import com.example.restaurantsfoodwebsite.dto.user.UserOverview;
+import com.example.restaurantsfoodwebsite.entity.Role;
+import com.example.restaurantsfoodwebsite.entity.User;
 import com.example.restaurantsfoodwebsite.security.CurrentUser;
 import com.example.restaurantsfoodwebsite.service.UserService;
+import com.example.restaurantsfoodwebsite.util.PageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,10 +18,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,25 +28,18 @@ public class UserController {
 
     private final UserService userService;
     private static String ERROR;
+    private static String ERROR2;
 
 
     @GetMapping
-    public String users(@RequestParam("page") Optional<Integer> page,
-                        @RequestParam("size") Optional<Integer> size,
+    public String users(@RequestParam(value = "page", defaultValue = "0") int page,
+                        @RequestParam(value = "size", defaultValue = "5") int size,
                         ModelMap modelMap) {
-        int currentPage = page.orElse(1);
-        int pageSize = size.orElse(5);
-        Page<UserOverview> users = userService.getUsers(PageRequest.of(currentPage - 1, pageSize));
-
+        Page<UserOverview> users = userService.getUsers(PageRequest.of(page, size));
         modelMap.addAttribute("users", users);
+        List<Integer> pageNumbers = PageUtil.getTotalPages(users);
+        modelMap.addAttribute("pageNumbers", pageNumbers);
 
-        int totalPages = users.getTotalPages();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .collect(Collectors.toList());
-            modelMap.addAttribute("pageNumbers", pageNumbers);
-        }
         return "users";
     }
 
@@ -62,7 +56,7 @@ public class UserController {
         try {
             userService.saveUser(dto);
             return "redirect:/loginPage";
-        } catch (IllegalStateException e) {
+        } catch (IllegalStateException | MessagingException e) {
             modelMap.addAttribute("errorMessageEmail", "Email already in use");
             return "/addUser";
         }
@@ -74,8 +68,8 @@ public class UserController {
         return "index";
     }
 
-    @GetMapping("/delete")
-    public String delete(@RequestParam("id") int id, ModelMap modelMap) {
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") int id, ModelMap modelMap) {
         try {
             userService.delete(id);
             return "redirect:/users";
@@ -85,37 +79,55 @@ public class UserController {
         }
     }
 
-    @GetMapping("/customer")
+    @GetMapping("/home")
     public String customerPage(@AuthenticationPrincipal CurrentUser currentUser,
                                ModelMap modelMap) {
-        modelMap.addAttribute("user", currentUser.getUser());
-        String error = ERROR;
-        modelMap.addAttribute("errorMessage", error);
+        modelMap.addAttribute("errorMessageName", ERROR);
+        modelMap.addAttribute("errorMessagePassword", ERROR2);
         ERROR = null;
-        return "customer";
+        ERROR2 = null;
+        User user = currentUser.getUser();
+        if (user.getRole() == Role.CUSTOMER || user.getRole() == Role.RESTAURANT_OWNER) {
+            return "customer";
+        } else if (user.getRole() == Role.MANAGER) {
+            return "manager";
+        }
+        return "redirect:/";
     }
 
     @PostMapping("/edit/{id}")
-    public String editUser(@ModelAttribute EditUserDto dto,
-                           @AuthenticationPrincipal CurrentUser currentUser) {
+    public String edit(@ModelAttribute EditUserDto dto,
+                       @PathVariable int id,
+                       @AuthenticationPrincipal CurrentUser user) {
         try {
-            userService.editUser(dto, currentUser.getUser());
-            return "redirect:/users/customer";
+            userService.editUser(dto, id);
         } catch (IllegalStateException ex) {
             ERROR = ex.getMessage();
-            return "redirect:/users/customer";
         }
+        return "redirect:/users/home";
     }
 
-    @PostMapping("/changePassword")
-    public String changePassword(@ModelAttribute ChangePasswordDto dto,
-                                 @AuthenticationPrincipal CurrentUser currentUser) {
+    @PostMapping("/changePassword/{id}")
+    public String changePassword(@PathVariable int id,
+                                 @ModelAttribute ChangePasswordDto dto) {
         try {
-            userService.changePassword(currentUser.getUser().getId(), dto);
-            return "redirect:/users/customer";
+            userService.changePassword(id, dto);
         } catch (IllegalStateException ex) {
-            ERROR = ex.getMessage();
-            return "redirect:/users/customer";
+            ERROR2 = ex.getMessage();
         }
+        return "redirect:/users/home";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable int id, ModelMap modelMap) {
+        modelMap.addAttribute("userId", id);
+        return "customerEdit";
+    }
+
+    @GetMapping("/eeee")
+    public String editW(@PathVariable int id,
+                       ModelMap modelMap) {
+        modelMap.addAttribute("userId", id);
+        return "customerEdit";
     }
 }

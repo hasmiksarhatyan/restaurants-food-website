@@ -1,56 +1,411 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org/">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Restaurants Page</title>-->
+<!--</head>-->
+<!--<body>-->
+
+
+<!--<a th:if="${currentUser == null}" href="/login">Login</a><br>-->
+<!--<a th:if="${currentUser != null}" href="/logout">Logout</a><br>-->
+<!--<a th:if="${currentUser == null}" href="/users/add">Register</a> <br>-->
+<!--<a href="/">Home</a>-->
+<!--<a th:if="${currentUser != null && currentUser.role.name == 'MANAGER'}" href="/manager">Admin Panel</a>-->
+<!--<a th:if="${currentUser != null && currentUser.role.name == 'CUSTOMER'}" href="/myRestaurants">My Rstaurants</a>-->
+
+
+<!--<table>-->
+<!--    <tr>-->
+<!--        <th>Name</th>-->
+<!--        <th>Address</th>-->
+<!--        <th>Email</th>-->
+<!--        <th>Phone</th>-->
+<!--        <th>Delivery price</th>-->
+<!--        <th>Restaurant Category</th>-->
+<!--        <th>Restaurant Pictures</th>-->
+<!--    </tr>-->
+
+<!--    <tr th:each="restaurant:${restaurants.content}">-->
+<!--        <td th:text="${restaurant.name}"></td>-->
+<!--        <td th:text="${restaurant.address}"></td>-->
+<!--        <span style="color: red" th:if="${errorMessage!=null}" th:text="${errorMessage}"></span><br-->
+<!--            th:if="${errorMessage!=null}">-->
+<!--        <td th:text="${restaurant.email}"></td>-->
+<!--        <td th:text="${restaurant.phone}"></td>-->
+<!--        <td th:text="${restaurant.deliveryPrice}"></td>-->
+<!--        <td th:text="${restaurant.restaurantCategoryOverview.name}"></td>-->
+
+<!--        <td th:if="${restaurant.pictures != null && !restaurant.pictures.isEmpty()}"-->
+<!--            th:each="picture:${restaurant.pictures}">-->
+<!--            <img th:src="@{/restaurants/getImages(fileName=${picture})}"></td>-->
+<!--        <img th:if="${restaurant.pictures == null || restaurant.pictures.isEmpty()}" src="">-->
+
+
+<!--        <li th:if="${currentUser != null && currentUser.role.name == 'MANAGER'}">-->
+<!--            <td><a th:href="@{'/restaurants/delete/' + ${restaurant.id}}">Delete the restaurant</a></td>-->
+<!--            <br th:if="${errorMessageId!=null}">-->
+<!--            <span style="color: red" th:if="${errorMessageId!=null}" th:text="${errorMessageId}"></span></li>-->
+
+
+<!--        <li th:if="${currentUser != null && currentUser.role.name == 'MANAGER'}">-->
+<!--            <td><a th:href="@{'/restaurants/edit/' + ${restaurant.id}}">Edit the restaurant</a></td>-->
+<!--            <br th:if="${errorMessageEdit!=null}">-->
+<!--            <span style="color: red" th:if="${errorMessageEdit!=null}" th:text="${errorMessageEdit}"></span></li>-->
+
+
+<!--    </tr>-->
+
+<!--</table>-->
+<!--<div th:if="${restaurants.totalPages>0}" class="pagination"-->
+<!--     th:each="pageNumber:${pageNumbers}">-->
+<!--    <a th:href="@{/restaurants(size=${restaurants.size}, page=${pageNumber})}"-->
+<!--       th:text="${pageNumber}"-->
+<!--       th:class="${pageNumber==restaurants.number+1}? active"></a>-->
+<!--</div>-->
+
+
+<!--<li th:if="${currentUser != null && currentUser.role.name == 'MANAGER'}">-->
+<!--    <a href="/restaurants/add">Add New Restaurant</a>-->
+<!--</li>-->
+
+
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Restaurants Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Foogra - Discover & Book the best restaurants at the best price">
+    <meta name="author" content="Ansonika">
+    <title>Foogra - Discover & Book the best restaurants at the best price</title>
+
+    <!-- Favicons-->
+
+    <th:block th:insert="fragments/fragment::headerImport"></th:block>
+
 </head>
+
 <body>
 
-<table>
+<th:block th:insert="fragments/fragment::header"></th:block>
 
-    <tr>
-        <th>Name</th>
-        <th>Address</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Delivery price</th>
-        <th>Restaurant Category</th>
-        <th>Restaurant Pictures</th>
-    </tr>
+<!-- /header -->
 
-    <tr th:each="restaurant:${restaurants.content}">
-        <td th:text="${restaurant.name}"></td>
-        <td th:text="${restaurant.address}"></td>
-        <span style="color: red" th:if="${errorMessage!=null}" th:text="${errorMessage}"></span><br
-            th:if="${errorMessage!=null}">
-        <td th:text="${restaurant.email}"></td>
-        <td th:text="${restaurant.phone}"></td>
-        <td th:text="${restaurant.deliveryPrice}"></td>
-        <td th:text="${restaurant.restaurantCategoryOverview.name}"></td>
+<main>
+    <div class="page_header element_to_stick">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-8 col-lg-7 col-md-7 d-none d-md-block">
+                    <div class="breadcrumbs">
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Category</a></li>
+                            <li>Page active</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-5 col-md-5">
+                    <div class="search_bar_list">
+                        <input type="text" class="form-control" placeholder="Search again...">
+                        <input type="submit" value="Search">
+                    </div>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+    </div>
+    <!-- /page_header -->
 
-        <li th:if="${currentUser != null && currentUser.role.name == 'MANAGER'}">
-            <td><a th:href="@{/restaurants/delete(id=${restaurant.id})}">Delete the restaurant</a></td>
-            <br th:if="${errorMessageId!=null}">
-            <span style="color: red" th:if="${errorMessageId!=null}" th:text="${errorMessageId}"></span></li>
+    <!--    <div class="filters_full clearfix">-->
+    <!--        <div class="container">-->
+    <!--            <div class="sort_select">-->
+    <!--                <select name="sort" id="sort">-->
+    <!--                    <option value="popularity" selected="selected">Sort by Popularity</option>-->
+    <!--                    <option value="rating">Sort by Average rating</option>-->
+    <!--                    <option value="date">Sort by newness</option>-->
+    <!--                    <option value="price">Sort by Price: low to high</option>-->
+    <!--                    <option value="price-desc">Sort by Price: high to low</option>-->
+    <!--                </select>-->
+    <!--            </div>-->
+    <!--            <a class="btn_map mobile btn_filters" data-bs-toggle="collapse" href="#collapseMap"><i class="icon_pin_alt"></i></a>-->
+    <!--            <a href="#collapseFilters" data-bs-toggle="collapse" class="btn_filters"><i class="icon_adjust-vert"></i><span>Filters</span></a>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--    &lt;!&ndash; /filters_full &ndash;&gt;-->
 
-        <td th:if="${restaurant.pictures != null && !restaurant.pictures.isEmpty()}"
-            th:each="picture:${restaurant.pictures}">
-            <img th:src="@{/restaurants/getImages(fileName=${picture})}"></td>
-        <img th:if="${restaurant.pictures == null || restaurant.pictures.isEmpty()}" src="">
-    </tr>
+    <div class="collapse" id="collapseMap">
+        <div id="map" class="map"></div>
+    </div>
+    <!-- /Map -->
 
-</table>
+    <div class="collapse filters_2" id="collapseFilters">
+        <div class="container margin_detail">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="filter_type">
+                        <h6>Categories</h6>
+                        <ul>
+                            <li>
+                                <label class="container_check">Pizza - Italian <small>12</small>
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="container_check">Japanese - Sushi <small>24</small>
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="container_check">Burghers <small>23</small>
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="container_check">Vegetarian <small>11</small>
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="filter_type">
+                        <h6>Rating</h6>
+                        <ul>
+                            <li>
+                                <label class="container_check">Superb 9+ <small>06</small>
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="container_check">Very Good 8+ <small>12</small>
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="container_check">Good 7+ <small>17</small>
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="container_check">Pleasant 6+ <small>43</small>
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="filter_type">
+                        <h6>Distance</h6>
+                        <div class="distance"> Radius around selected destination <span></span> km</div>
+                        <div><input type="range" min="10" max="100" step="10" value="30" data-orientation="horizontal">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+    </div>
+    <!-- /filters -->
 
-<li th:if="${currentUser != null && currentUser.role.name == 'MANAGER'}">
-    <a href="/restaurants/add">Add New Restaurant</a>
-</li>
+    <div class="container margin_30_40">
+        <div class="row">
 
-<div th:if="${restaurants.totalPages>0}" class="pagination"
-     th:each="pageNumber:${pageNumbers}">
-    <a th:href="@{/restaurants(size=${restaurants.size}, page=${pageNumber})}"
-       th:text="${pageNumber}"
-       th:class="${pageNumber==restaurants.number+1}? active"></a>
-</div>
+            <td th:each="restaurant:${restaurants.content}">
+
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                    <div class="strip">
+                        <figure>
+
+
+                            <img th:if="${restaurant.pictures != null || restaurant.pictures.size != 0}" th:src="@{/restaurants/getImages(fileName=${restaurant.pictures.get(0)})}"
+                                 class="img-fluid lazy"
+                                 alt="">
+                            <a th:href="@{'/restaurants/' + ${restaurant.id}}" class="strip_info"></a>
+                        </figure>
+                        <ul>
+                            <li style="color: red" th:if="${errorMessageSingle!=null}"
+                                th:text="${errorMessageSingle}"></li>
+                            <h7><a th:text="${restaurant.name}"></a></h7>
+                            <h8><a th:text="${restaurant.restaurantCategoryOverview.name}"></a></h8>
+                            <h9><a th:text="${restaurant.address}"></a></h9>
+                        </ul>
+                    </div>
+                </div>
+            </td>
+            <div th:if="${restaurants.totalPages>0}" class="pagination"
+                 th:each="pageNumber:${pageNumbers}">
+                <a th:href="@{/restaurants(size=${restaurants.size}, page=${pageNumber})}"
+                   th:text="${pageNumber + 1}"
+                   th:class="${pageNumber==restaurants.number}?active" class="active"></a>
+            </div>
+
+            <!--            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">-->
+            <!--                <div class="strip">-->
+            <!--                    <figure>-->
+            <!--                        <img src="img/lazy-placeholder.png" data-src="img/location_12.jpg" class="img-fluid lazy"-->
+            <!--                             alt="">-->
+            <!--                        <a href="detail-restaurant.html" class="strip_info">-->
+            <!--                            <small>Chinese</small>-->
+            <!--                            <div class="item_title">-->
+            <!--                                <h3>Pechino Express</h3>-->
+            <!--                                <small>27 Old Gloucester St</small>-->
+            <!--                            </div>-->
+            <!--                        </a>-->
+            <!--                    </figure>-->
+            <!--                    <ul>-->
+            <!--                        <li><span>Avg. Price 29$</span></li>-->
+            <!--                        <li>-->
+            <!--                            <div class="score"><span>Superb<em>350 Reviews</em></span><strong>8.9</strong></div>-->
+            <!--                        </li>-->
+            <!--                    </ul>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!-- /strip grid -->
+        </div>
+
+
+        <!-- /row -->
+        <!--        <div class="pagination_fg">-->
+        <!--            <a href="#">&laquo;</a>-->
+        <!--            <a href="#" class="active">1</a>-->
+        <!--            <a href="#">2</a>-->
+        <!--            <a href="#">3</a>-->
+        <!--            <a href="#">4</a>-->
+        <!--            <a href="#">5</a>-->
+        <!--            <a href="#">&raquo;</a>-->
+        <!--        </div>-->
+    </div>
+    <!-- /container -->
+
+</main>
+<!-- /main -->
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <h3 data-bs-target="#collapse_1">Quick Links</h3>
+                <div class="collapse dont-collapse-sm links" id="collapse_1">
+                    <ul>
+                        <li><a href="submit-rider.html">Become a Rider</a></li>
+                        <li><a href="submit-restaurant.html">Add your restaurant</a></li>
+                        <li><a href="help.html">Help</a></li>
+                        <li><a href="account.html">My account</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contacts.html">Contacts</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h3 data-bs-target="#collapse_2">Categories</h3>
+                <div class="collapse dont-collapse-sm links" id="collapse_2">
+                    <ul>
+                        <li><a href="grid-listing-filterscol.html">Top Categories</a></li>
+                        <li><a href="grid-listing-filterscol-full-masonry.html">Best Rated</a></li>
+                        <li><a href="grid-listing-filterscol-full-width.html">Best Price</a></li>
+                        <li><a href="grid-listing-filterscol-full-masonry.html">Latest Submissions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h3 data-bs-target="#collapse_3">Contacts</h3>
+                <div class="collapse dont-collapse-sm contacts" id="collapse_3">
+                    <ul>
+                        <li><i class="icon_house_alt"></i>97845 Baker st. 567<br>Los Angeles - US</li>
+                        <li><i class="icon_mobile"></i>+94 423-23-221</li>
+                        <li><i class="icon_mail_alt"></i><a href="#0">info@domain.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h3 data-bs-target="#collapse_4">Keep in touch</h3>
+                <div class="collapse dont-collapse-sm" id="collapse_4">
+                    <div id="newsletter">
+                        <div id="message-newsletter"></div>
+                        <form method="post" action="assets/newsletter.php" name="newsletter_form" id="newsletter_form">
+                            <div class="form-group">
+                                <input type="email" name="email_newsletter" id="email_newsletter" class="form-control"
+                                       placeholder="Your email">
+                                <button type="submit" id="submit-newsletter"><i class="arrow_carrot-right"></i></button>
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <!-- /row-->
+        <hr>
+        <div class="row add_bottom_25">
+            <div class="col-lg-6">
+                <ul class="footer-selector clearfix">
+                    <li>
+                        <div class="styled-select lang-selector">
+                            <select>
+                                <option value="English" selected>English</option>
+                                <option value="French">French</option>
+                                <option value="Spanish">Spanish</option>
+                                <option value="Russian">Russian</option>
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="styled-select currency-selector">
+                            <select>
+                                <option value="US Dollars" selected>US Dollars</option>
+                                <option value="Euro">Euro</option>
+                            </select>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-6">
+                <ul class="additional_links">
+                    <li><a href="#0">Terms and conditions</a></li>
+                    <li><a href="#0">Privacy</a></li>
+                    <li><span>© Foogra</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--/footer-->
+
+<div id="toTop"></div><!-- Back to top button -->
+
+<div class="layer"></div><!-- Opacity Mask Menu Mobile -->
+
+<!-- Sign In Modal -->
+<th:block th:insert="fragments/fragment::signInModal"></th:block>
+<!-- /Sign In Modal -->
+<!-- COMMON SCRIPTS -->
+<th:block th:insert="fragments/fragment::commonScripts"></th:block>
+
+<!-- SPECIFIC SCRIPTS -->
+<script src="js/sticky_sidebar.min.js"></script>
+<script src="js/specific_listing.js"></script>
+
+<!-- COLOR SWITCHER  -->
+
+<!-- COLOR SWITCHER  -->
+
+<th:block th:insert="fragments/fragment::colorSwitcher"></th:block>
 
 </body>
 </html>

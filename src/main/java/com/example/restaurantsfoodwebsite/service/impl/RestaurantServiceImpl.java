@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Optional;
-import java.util.function.DoubleUnaryOperator;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +33,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public Page<RestaurantOverview> findAllRestaurants(Pageable pageable) {
         return restaurantMapper.mapToOverviewPage(restaurantRepository.findAll(pageable), pageable);
+
         //        Page<Restaurant> restaurants = restaurantRepository.findAll(pageable);
 //        List<RestaurantOverview> restaurantOverviews = new ArrayList<>();
 //        for (Restaurant restaurant : restaurants) {
@@ -116,5 +116,14 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new IllegalStateException("There is no restaurant");
         }
         return restaurantMapper.mapToOverview(restaurant.get());
+    }
+
+    @Override
+    public Restaurant findRestaurant(int id) {
+        Optional<Restaurant> byId = restaurantRepository.findById(id);
+        if (byId.isEmpty()) {
+            throw new IllegalStateException("There is no restaurant");
+        }
+        return byId.get();
     }
 }

@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.mail.MessagingException;
 import java.util.Optional;
 
 @Slf4j
@@ -39,7 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(CreateUserDto dto) {
+    public void saveUser(CreateUserDto dto) throws MessagingException {
         log.info("New request to get registered. Email {}", dto.getEmail());
         if (userRepository.existsByEmailIgnoreCase(dto.getEmail())) {
             log.info("There is already a user with email {}", dto.getEmail());
@@ -122,7 +123,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void editUser(EditUserDto dto, User user) {
+    public void editUser(EditUserDto dto, int userId) {
+        Optional<User> optional = userRepository.findById(userId);
+        if(optional.isEmpty()){
+            throw new IllegalStateException("User not found");
+        }
+        User user = optional.get();
         String firstName = dto.getFirstName();
         String lastName = dto.getLastName();
 

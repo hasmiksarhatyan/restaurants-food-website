@@ -2,49 +2,31 @@
 <!--<html lang="en" xmlns:th="http://www.thymeleaf.org/">-->
 <!--<head>-->
 <!--    <meta charset="UTF-8">-->
-<!--    <title>Show All Users</title>-->
+<!--    <title>Restaurant Category Page</title>-->
 <!--</head>-->
 <!--<body>-->
-
-<!--<th:block th:if="${currentUser == null}">-->
-<!--    <a href="/users/add">Register</a><br>-->
-<!--    <a href="/loginPage">Login</a><br><br>-->
-<!--</th:block>-->
-
-<!--<th:block th:if="${currentUser != null}">-->
-<!--    <a href="/logout"> Sign Out</a>-->
-<!--</th:block>-->
-
-<!--<span th:if="${currentUser != null}" th:text="Welcome + ' ' + ${currentUser.firstName}"></span><br>-->
-<!--<span th:if="${currentUser != null && currentUser.role.name == 'MANAGER'}" href="/manager">Admin Panel</span>-->
-<!--<span th:if="${currentUser != null && currentUser.role.name == 'CUSTOMER'}" href="/myRestaurants">My Rstaurants</span>-->
-
 <!--<table>-->
+
 <!--    <tr>-->
-<!--        <th>First Name</th>-->
-<!--        <th>Last Name</th>-->
-<!--        <th>Email</th>-->
-<!--        <th>Role</th>-->
+<!--        <th>Name</th>-->
 <!--    </tr>-->
 
-<!--    <tr th:each="user: ${users.content}">-->
-<!--        <td th:text="${user.firstName}"></td>-->
-<!--        <td th:text="${user.lastName}"></td>-->
-<!--        <td th:text="${user.email}"></td>-->
-<!--        <td th:text="${user.role}"></td>-->
-<!--        <td><a th:href="@{/users/delete(id=${user.id})}">Delete the user</a></td>-->
-<!--    </tr>-->
-
-<!--    <a href="/users/add">To add a new user</a>-->
+<!--    <tr th:each="category:${categories.content}">-->
+<!--        <td th:text="${category.name}"></td>-->
+<!--        <td><a th:if="${currentUser != null && currentUser.role.name == 'MANAGER'}" th:href="@{'/restaurantsCategory/delete/'+ ${category.id}}">Delete the Type of the Restaurant></a></td>-->
+<!--        <br th:if="errorMessageId !=null">-->
+<!--        <span style="color: red" th:if="errorMessageId !=null" th:text="${errorMessageId}"></span>-->
+<!--    <a href="/restaurantsCategory/add">Add a New Type of Restaurant</a>-->
 
 <!--</table>-->
 
-<!--<div th:if="${users.totalPages>0}" class="pagination"-->
+<!--<div th:if="${categories.totalPages>0}" class="pagination"-->
 <!--     th:each="pageNumber:${pageNumbers}">-->
-<!--    <a th:href="@{/users(size=${users.size}, page=${pageNumber})}"-->
+<!--    <a th:href="@{/restaurantsCategory(size=${categories.size}, page=${pageNumber})}"-->
 <!--       th:text="${pageNumber}"-->
-<!--       th:class="${pageNumber==users.number+1}? active"></a>-->
+<!--       th:class="${pageNumber==categories.number+1}? active"></a>-->
 <!--</div>-->
+
 <!--</body>-->
 <!--</html>-->
 
@@ -131,6 +113,13 @@
                 </a>
             </li>
 
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add a New Restaurant">
+                <a class="nav-link" href="/restaurants/add">
+                    <i class="fa fa-fw fa-plus-circle"></i>
+                    <span class="nav-link-text">Add a New Restaurant</span>
+                </a>
+            </li>
+
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="See all Types of Restaurant">
                 <a class="nav-link" href="/restaurantsCategory">
                     <i class="fa fa-fw fa-plus-circle"></i>
@@ -187,51 +176,49 @@
         </ol>
 
 
-        <!-- Example DataTables Card-->
         <div class="card mb-3">
             <div class="card-header">
-                <i class="fa fa-table"></i>User
+                <i class="fa fa-table"></i>Restaurant Type
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <br th:if="errorMessageId !=null">
+                        <span style="color: red" th:if="errorMessageId !=null" th:text="${errorMessageId}"></span>
                         <thead>
                         <tr>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
+                            <th>Name</th>
                             <th>Delete</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                        <tr th:each="user: ${users.content}">
-                            <td th:text="${user.firstName}"></td>
-                            <td th:text="${user.lastName}"></td>
-                            <td th:text="${user.email}"></td>
-                            <td th:text="${user.role}"></td>
-                            <td><a th:href="@{'/users/delete/'+ ${user.id}}"><strong>Delete</strong></a>
+                        <tr th:each="category:${categories.content}">
+                            <td th:text="${category.name}"></td>
+                            <td>
+                                <a th:href="@{'/restaurantsCategory/delete/'+ ${category.id}}"><strong>Delete</strong></a>
                             </td>
-                            <br th:if="${errorMessageId!=null}">
-                            <span style="color: red" th:if="${errorMessageId!=null}" th:text="${errorMessageId}"></span>
                         </tr>
                         </tbody>
                     </table>
 
-                    <div th:if="${users.totalPages>0}" class="pagination"
+                    <div th:if="${categories.totalPages>0}" class="pagination"
                          th:each="pageNumber:${pageNumbers}">
-                        <a th:href="@{/users(size=${users.size}, page=${pageNumber})}"
-                           th:text="${pageNumber +1}"
-                           th:class="${pageNumber==users.number}? active"></a>
+                        <a th:href="@{/restaurantsCategory(size=${categories.size}, page=${pageNumber})}"
+                           th:text="${pageNumber + 1}"
+                           th:class="${pageNumber==categories.number}?active"></a>
                     </div>
                 </div>
             </div>
         </div>
+
+
         <!-- /tables-->
     </div>
     <!-- /container-fluid-->
 </div>
+
+
 <!-- /container-wrapper-->
 <footer class="sticky-footer">
     <div class="container">
@@ -250,34 +237,22 @@
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="#0">Logout</a>
-            </div>
         </div>
     </div>
-</div>
 
-<!-- Bootstrap core JavaScript-->
-<script src="/admin_section/vendor/jquery/jquery.min.js"></script>
-<script src="/admin_section/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- Core plugin JavaScript-->
-<script src="/admin_section/vendor/jquery-easing/jquery.easing.min.js"></script>
-<!-- Page level plugin JavaScript-->
-<script src="/admin_section/vendor/chart.js/Chart.js"></script>
-<script src="/admin_section/vendor/datatables/jquery.dataTables.js"></script>
-<script src="/admin_section/vendor/datatables/dataTables.bootstrap4.js"></script>
-<script src="/admin_section/vendor/jquery.magnific-popup.min.js"></script>
-<!-- Custom scripts for all pages-->
-<script src="/admin_section/js/admin.js"></script>
-<!-- Custom scripts for this page-->
-<script src="/admin_section/js/admin-charts.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="/admin_section/vendor/jquery/jquery.min.js"></script>
+    <script src="/admin_section/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="/admin_section/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="/admin_section/vendor/chart.js/Chart.js"></script>
+    <script src="/admin_section/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="/admin_section/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="/admin_section/vendor/jquery.magnific-popup.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="/admin_section/js/admin.js"></script>
+    <!-- Custom scripts for this page-->
+    <script src="/admin_section/js/admin-charts.js"></script>
 </body>
 </html>
