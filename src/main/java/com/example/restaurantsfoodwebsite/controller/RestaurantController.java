@@ -3,12 +3,12 @@ package com.example.restaurantsfoodwebsite.controller;
 import com.example.restaurantsfoodwebsite.dto.restaurant.CreateRestaurantDto;
 import com.example.restaurantsfoodwebsite.dto.restaurant.EditRestaurantDto;
 import com.example.restaurantsfoodwebsite.dto.restaurant.RestaurantOverview;
+import com.example.restaurantsfoodwebsite.entity.Restaurant;
 import com.example.restaurantsfoodwebsite.entity.Role;
-import com.example.restaurantsfoodwebsite.repository.RestaurantRepository;
 import com.example.restaurantsfoodwebsite.security.CurrentUser;
 import com.example.restaurantsfoodwebsite.service.RestaurantCategoryService;
 import com.example.restaurantsfoodwebsite.service.RestaurantService;
-import com.example.restaurantsfoodwebsite.service.UserService;
+import com.example.restaurantsfoodwebsite.util.PageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,8 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,24 +32,14 @@ public class RestaurantController {
     private final RestaurantCategoryService restaurantCategoryService;
     private static String ERROR;
 
+
     @GetMapping
-    public String restaurants(@RequestParam("page") Optional<Integer> page,
-                              @RequestParam("size") Optional<Integer> size,
+    public String restaurants(@RequestParam(value = "page", defaultValue = "0") int page,
+                              @RequestParam(value = "size", defaultValue = "5") int size,
                               ModelMap modelMap) {
-        int currentPage = page.orElse(1);
-        int pageSize = size.orElse(5);
-
-        Page<RestaurantOverview> restaurants = restaurantService.findAllRestaurants(PageRequest.of(currentPage - 1, pageSize));
-
+        Page<RestaurantOverview> restaurants = restaurantService.findAllRestaurants(PageRequest.of(page, size));
         modelMap.addAttribute("restaurants", restaurants);
-
-        int totalPages = restaurants.getTotalPages();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .collect(Collectors.toList());
-            modelMap.addAttribute("pageNumbers", pageNumbers);
-        }
+        modelMap.addAttribute("pageNumbers", PageUtil.getTotalPages(restaurants));
         return "restaurants";
     }
 
@@ -78,10 +66,11 @@ public class RestaurantController {
         }
         try {
             restaurantService.addRestaurant(dto, files, currentUser);
-            if (currentUser.getUser().getRole().equals(Role.RESTAURANT_OWNER)) {
-                return "redirect:/restaurants/myRestaurants";
+            if (currentUser.getUser().getRole() == Role.RESTAURANT_OWNER) {
+                return "redirect:/restaurants/my";
+            } else {
+                return "redirect:/restaurants";
             }
-            return "redirect:/restaurants";
         } catch (IllegalStateException e) {
             ERROR = e.getMessage();
             return "redirect:/restaurants/add";
@@ -94,9 +83,14 @@ public class RestaurantController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteRestaurant(@PathVariable("id") int id, ModelMap modelMap) {
+    public String deleteRestaurant(@PathVariable("id") int id,
+                                   @AuthenticationPrincipal CurrentUser currentUser,
+                                   ModelMap modelMap) {
         try {
             restaurantService.deleteRestaurant(id);
+            if (currentUser.getUser().getRole().equals(Role.RESTAURANT_OWNER)) {
+                return "redirect:/restaurants/my";
+            }
             return "redirect:/restaurants";
         } catch (IllegalStateException e) {
             modelMap.addAttribute("errorMessageId", "Something went wrong, Try again!");
@@ -104,56 +98,70 @@ public class RestaurantController {
         }
     }
 
-    @GetMapping("/myRestaurants")
+    @GetMapping("/my")
     public String restaurantsForOwner(@RequestParam("page") Optional<Integer> page,
                                       @RequestParam("size") Optional<Integer> size,
                                       @AuthenticationPrincipal CurrentUser currentUser,
                                       ModelMap modelMap) {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
-
         try {
             Page<RestaurantOverview> restaurants = restaurantService.getRestaurantsByUser(currentUser.getUser(), PageRequest.of(currentPage - 1, pageSize));
             modelMap.addAttribute("restaurants", restaurants);
-
-            int totalPages = restaurants.getTotalPages();
-            if (totalPages > 0) {
-                List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                        .boxed()
-                        .collect(Collectors.toList());
-                modelMap.addAttribute("pageNumbers", pageNumbers);
-            }
-            return "myRestaurants";
+            List<Integer> pageNumbers = PageUtil.getTotalPages(restaurants);
+            modelMap.addAttribute("pageNumbers", pageNumbers);
+            return "restaurants";
         } catch (IllegalStateException e) {
             modelMap.addAttribute("errorMessageEmptyRestaurant", e.getMessage());
             return "addRestaurant";
         }
     }
 
-    @PostMapping("/editRestaurant/{id}")
-    public String editRestaurant(@PathVariable int id,
-                                 @ModelAttribute EditRestaurantDto dto,
-                                 ModelMap modelMap) {
-        try {
-            restaurantService.editRestaurant(dto, id);
-            return "redirect:/restaurants/myRestaurants";
-        } catch (IllegalStateException ex) {
-            modelMap.addAttribute("errorMessageEdit", ex.getMessage());
-            return "myRestaurants";
-        }
-    }
-
-
     @GetMapping("/edit/{id}")
     public String editRestaurant(@PathVariable("id") int id,
+                                 @AuthenticationPrincipal CurrentUser currentUser,
                                  ModelMap modelMap) {
         try {
             modelMap.addAttribute("restaurantId", id);
             modelMap.addAttribute("categories", restaurantCategoryService.findAll());
             return "editMyRestaurants";
+        } catch (IllegalStateException e) {
+            modelMap.addAttribute("errorMessageEdit", "Please, try again");
+            if (currentUser.getUser().getRole() == Role.RESTAURANT_OWNER) {
+                return "restaurantForVisitor";
+            } else {
+                return "restaurants";
+            }
+        }
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editRestaurant(@PathVariable("id") int id,
+                                 @ModelAttribute EditRestaurantDto dto,
+                                 ModelMap modelMap) {
+        try {
+            restaurantService.editRestaurant(dto, id);
+            return "redirect:/restaurants";
+        } catch (IllegalStateException e) {
+            modelMap.addAttribute("errorMessageEdit", e.getMessage());
+            return "editMyRestaurants";
+        }
+    }
+
+    @GetMapping("/{id}")
+    public String singleRestaurantPage(@PathVariable int id,
+                                       @AuthenticationPrincipal CurrentUser currentUser,
+                                       ModelMap modelMap) {
+        try {
+            Restaurant restaurant = restaurantService.findRestaurant(id);
+            modelMap.addAttribute("restaurant", restaurant);
+            if (currentUser == null) {
+                return "restaurantForVisitor";
+            }
+            return "indicatedRestaurant";
         } catch (IllegalStateException ex) {
-            modelMap.addAttribute("errorMessageEdit", ex.getMessage());
-            return "myRestaurants";
+            modelMap.addAttribute("errorMessageSingle", ex.getMessage());
+            return "redirect:/restaurants/my";
         }
     }
 }

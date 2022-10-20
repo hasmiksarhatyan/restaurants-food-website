@@ -6,7 +6,6 @@ import com.example.restaurantsfoodwebsite.entity.Restaurant;
 import com.example.restaurantsfoodwebsite.entity.Role;
 import com.example.restaurantsfoodwebsite.entity.User;
 import com.example.restaurantsfoodwebsite.repository.RestaurantCategoryRepository;
-import com.example.restaurantsfoodwebsite.security.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -14,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.List;
 
 @Component

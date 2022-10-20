@@ -27,7 +27,7 @@ public class RestaurantsFoodWebsiteApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Optional<User> byEmail = userRepository.findByEmail("admin@mail.com");
-        if (!byEmail.isPresent()) {
+        if (byEmail.isEmpty()) {
             userRepository.save(User.builder()
                     .firstName("admin")
                     .lastName("admin")
