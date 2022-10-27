@@ -24,5 +24,3 @@ public interface UserService {
     void editUser(EditUserDto dto, int userId);
 
 }
-
-

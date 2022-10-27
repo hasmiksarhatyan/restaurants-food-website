@@ -3,6 +3,7 @@ package com.example.restaurantsfoodwebsite.service.impl;
 import com.example.restaurantsfoodwebsite.dto.restaurant.CreateRestaurantDto;
 import com.example.restaurantsfoodwebsite.dto.restaurant.EditRestaurantDto;
 import com.example.restaurantsfoodwebsite.dto.restaurant.RestaurantOverview;
+import com.example.restaurantsfoodwebsite.dto.restaurantCategory.RestaurantCategoryOverview;
 import com.example.restaurantsfoodwebsite.entity.Restaurant;
 import com.example.restaurantsfoodwebsite.entity.RestaurantCategory;
 import com.example.restaurantsfoodwebsite.entity.User;
@@ -19,6 +20,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,6 +32,11 @@ public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantMapper restaurantMapper;
     private final RestaurantRepository restaurantRepository;
 
+
+    @Override
+    public List<RestaurantOverview> findAll() {
+            return restaurantMapper.mapToOverviewList(restaurantRepository.findAll());
+    }
 
     @Override
     public Page<RestaurantOverview> findAllRestaurants(Pageable pageable) {
@@ -126,4 +134,5 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
         return byId.get();
     }
+
 }
