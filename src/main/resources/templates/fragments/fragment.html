@@ -56,6 +56,8 @@
 
     <!-- SPECIFIC CSS -->
     <link href="/css/home.css" rel="stylesheet">
+    <!-- Icon fonts-->
+    <link href="/admin_section/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- ALTERNATIVE COLORS CSS -->
     <link href="#" id="colors" rel="stylesheet">
@@ -90,7 +92,7 @@
                                     <ul>
                                         <!--                                        <li><a href="#0"><i class="icon_cog"></i>Dashboard</a></li>-->
                                         <!--                                        <li><a href="#0"><i class="icon_document"></i>Bookings</a></li>-->
-                                        <!--                                        <li><a href="#0"><i class="icon_heart"></i>Wish List</a></li>-->
+                                        <li><a href="/users/home"><i class="fa fa-fw fa-user"></i>My profile</a></li>
                                         <li><a href="/logout"><i class="icon_key"></i>Log out</a></li>
                                     </ul>
                                 </div>
@@ -121,14 +123,16 @@
                         <a href="/restaurants" class="show-submenu">Restaurants</a>
                     </li>
 
-                    <li th:if="${currentUser != null}" class="submenu">
-                        <a href="/users/home" class="show-submenu">My Profile</a>
+                    <li class="submenu">
+                        <a href="/events" class="show-submenu">Events</a>
                     </li>
 
                     <li class="submenu">
+                        <a href="/products" class="show-submenu">Products</a>
+                    </li>
+                    <li class="submenu">
 
                         <ul>
-
                             <li class="third-level"><a href="#0">OpenStreetMap</a>
                                 <ul>
                                     <li><a href="//grid-listing-filterscol-map-openstreetmap.html">List with map</a>

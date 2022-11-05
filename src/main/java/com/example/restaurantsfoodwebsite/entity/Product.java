@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -29,5 +30,12 @@ public class Product {
 
     @ManyToOne
     private Restaurant restaurant;
+
+    @ElementCollection
+    private List<String> pictures;
+
+    @ManyToOne
+    private User user;
+
 }
 

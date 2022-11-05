@@ -1,36 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org/">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Restaurant Category Page</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<table>-->
-
-<!--    <tr>-->
-<!--        <th>Name</th>-->
-<!--    </tr>-->
-
-<!--    <tr th:each="category:${categories.content}">-->
-<!--        <td th:text="${category.name}"></td>-->
-<!--        <td><a th:if="${currentUser != null && currentUser.role.name == 'MANAGER'}" th:href="@{'/restaurantsCategory/delete/'+ ${category.id}}">Delete the Type of the Restaurant></a></td>-->
-<!--        <br th:if="errorMessageId !=null">-->
-<!--        <span style="color: red" th:if="errorMessageId !=null" th:text="${errorMessageId}"></span>-->
-<!--    <a href="/restaurantsCategory/add">Add a New Type of Restaurant</a>-->
-
-<!--</table>-->
-
-<!--<div th:if="${categories.totalPages>0}" class="pagination"-->
-<!--     th:each="pageNumber:${pageNumbers}">-->
-<!--    <a th:href="@{/restaurantsCategory(size=${categories.size}, page=${pageNumber})}"-->
-<!--       th:text="${pageNumber}"-->
-<!--       th:class="${pageNumber==categories.number+1}? active"></a>-->
-<!--</div>-->
-
-<!--</body>-->
-<!--</html>-->
-
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 
@@ -61,7 +28,7 @@
 
         <div class="card mb-3">
             <div class="card-header">
-                <i class="fa fa-table"></i>Restaurant Type
+                <i class="fa fa-table"></i>Product Type
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -71,6 +38,7 @@
                         <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                         </thead>
@@ -79,18 +47,21 @@
                         <tr th:each="category:${categories.content}">
                             <td th:text="${category.name}"></td>
                             <td>
-                                <a th:href="@{'/restaurantsCategory/delete/'+ ${category.id}}"><strong>Delete</strong></a>
+                                <a th:href="@{'/productCategories/edit/'+ ${category.id}}"><strong>Edit</strong></a>
+                            </td>
+                            <td>
+                                <a th:href="@{'/productCategories/delete/'+ ${category.id}}"><strong>Delete</strong></a>
                             </td>
                         </tr>
                         </tbody>
                     </table>
 
-                    <div th:if="${categories.totalPages>0}" class="pagination"
-                         th:each="pageNumber:${pageNumbers}">
-                        <a th:href="@{/restaurantsCategory(size=${categories.size}, page=${pageNumber})}"
+                    <th th:if="${categories.totalPages > 0}" class="pagination"
+                        th:each="pageNumber : ${pageNumbers}">
+                        <a th:href="@{/manager/productCategory(size=${categories.size}, page=${pageNumber})}"
                            th:text="${pageNumber}"
-                           th:class="${pageNumber==categories.number+1}?active"></a>
-                    </div>
+                           th:class="${pageNumber==categories.number + 1} ? active"></a>
+                    </th>
                 </div>
             </div>
         </div>
@@ -109,6 +80,5 @@
 <th:block th:insert="fragments/fragmentUser::logoutModal"></th:block>
 
 <th:block th:insert="fragments/fragmentUser::scripts"></th:block>
-
 </body>
 </html>
