@@ -1,6 +1,6 @@
 package com.example.restaurantsfoodwebsite.controller;
 
-import com.example.restaurantsfoodwebsite.dto.product.ProductDto;
+import com.example.restaurantsfoodwebsite.dto.product.CreateProductDto;
 import com.example.restaurantsfoodwebsite.dto.product.ProductOverview;
 import com.example.restaurantsfoodwebsite.dto.productCategory.ProductCategoryOverview;
 import com.example.restaurantsfoodwebsite.entity.Role;
@@ -73,7 +73,7 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute ProductDto dto, @RequestParam("productImage") MultipartFile[] files,
+    public String addProduct(@ModelAttribute CreateProductDto dto, @RequestParam("productImage") MultipartFile[] files,
                              @AuthenticationPrincipal CurrentUser currentUser) throws IOException {
 
         productService.addProduct(dto, files, currentUser);
@@ -97,7 +97,7 @@ public class ProductController {
     }
 
     @PostMapping("/edit/{id}")
-    public String editProduct(@PathVariable("id") int id, @ModelAttribute ProductDto dto,
+    public String editProduct(@PathVariable("id") int id, @ModelAttribute CreateProductDto dto,
                               @RequestParam("productImage") MultipartFile[] files) throws IOException {
 
         productService.editProduct(dto, id, files);

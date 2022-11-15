@@ -36,9 +36,13 @@
                         <div class="form-group">
                             <label>Restaurant</label>
                             <div class="styled-select">
-                                <select name="restaurant">
-                                    <option th:each="restaurant:${restaurants}"
+                                <select name="restaurantId">
+                                    <option th:if="${currentUser.role.name == 'RESTAURANT_OWNER' && currentUser.id==restaurant.user.id}"
+                                            th:each="restaurant:${restaurants}"
                                             th:value="${restaurant.id}" th:text="${restaurant.name}" ></option>
+                                    <option th:if="${currentUser.role.name == 'MANAGER'}"
+                                            th:each="restaurant:${restaurants}" th:value="${restaurant.id}"
+                                            th:text="${restaurant.name}"></option>
                                     <option selected
                                             th:value="${product.restaurantOverview.id}" th:text="${product.restaurantOverview.name}" ></option>
                                 </select>
@@ -56,7 +60,7 @@
                     <div class="form-group">
                         <label>Menu Category</label>
                         <div class="styled-select">
-                            <select name="productCategory">
+                            <select name="productCategoryId">
                                 <option th:each="category:${categories}" th:value="${category.id}"
                                         th:text="${category.name}"></option>
                                 <option selected th:value="${product.productCategoryOverview.id}" th:text="${product.productCategoryOverview.name}" ></option>

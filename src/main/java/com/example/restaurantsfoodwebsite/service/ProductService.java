@@ -1,6 +1,6 @@
 package com.example.restaurantsfoodwebsite.service;
 
-import com.example.restaurantsfoodwebsite.dto.product.ProductDto;
+import com.example.restaurantsfoodwebsite.dto.product.CreateProductDto;
 import com.example.restaurantsfoodwebsite.dto.product.ProductOverview;
 import com.example.restaurantsfoodwebsite.entity.User;
 import com.example.restaurantsfoodwebsite.security.CurrentUser;
@@ -17,9 +17,9 @@ public interface ProductService {
 
     List<ProductOverview> findAll();
 
-    void addProduct(ProductDto dto, MultipartFile[] files, @AuthenticationPrincipal CurrentUser currentUser) throws IOException;
+    void addProduct(CreateProductDto dto, MultipartFile[] files, CurrentUser currentUser) throws IOException;
 
-    void editProduct(ProductDto dto, int id, MultipartFile[] files) throws IOException;
+    void editProduct(CreateProductDto dto, int id, MultipartFile[] files) throws IOException;
 
     byte[] getProductImage(String fileName) throws IOException;
 

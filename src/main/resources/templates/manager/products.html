@@ -103,7 +103,7 @@
                                 <h4 class="main_title" th:text="${product.name}"></h4>
                                 <comment style="padding-left: 90%" th:if="${currentUser.role.name == 'MANAGER'}" class="info_content">
                                     <i class="fa fa-fw fa-user"></i>
-                                    <small th:text="${product.user.firstName}"></small>
+                                    <small th:text="${product.userOverview.firstName}"></small>
                                 </comment>
                                 <p th:text="${product.description}"></p>
                                 <comment class="text-info" th:text="'price '+${product.price}" ></comment>

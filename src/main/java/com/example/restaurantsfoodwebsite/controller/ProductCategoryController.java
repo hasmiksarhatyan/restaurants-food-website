@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/productCategories")
+@RequestMapping("/productsCategories")
 public class ProductCategoryController {
     private final ProductCategoryService productCategoryService;
 
@@ -38,7 +38,7 @@ public class ProductCategoryController {
     @PostMapping("/add")
     public String addProductCategory(@ModelAttribute ProductCategoryDto dto) {
         productCategoryService.addProductCategory(dto);
-        return "redirect:/productCategories";
+        return "redirect:/productsCategories";
     }
 
 
@@ -51,14 +51,14 @@ public class ProductCategoryController {
     @PostMapping("/edit/{id}")
     public String editProductCategory(@PathVariable("id") int id, @ModelAttribute ProductCategoryDto dto) {
         productCategoryService.editProductCategory(dto, id);
-        return "redirect:/productCategories";
+        return "redirect:/productsCategories";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteProductCategory(@PathVariable("id") int id) {
 
         productCategoryService.deleteProductCategory(id);
-        return "redirect:/productCategories";
+        return "redirect:/productsCategories";
 
     }
 }

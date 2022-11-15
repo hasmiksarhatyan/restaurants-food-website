@@ -2,6 +2,7 @@ package com.example.restaurantsfoodwebsite.dto.product;
 
 import com.example.restaurantsfoodwebsite.dto.productCategory.ProductCategoryOverview;
 import com.example.restaurantsfoodwebsite.dto.restaurant.RestaurantOverview;
+import com.example.restaurantsfoodwebsite.dto.user.UserOverview;
 import com.example.restaurantsfoodwebsite.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,5 +24,5 @@ public class ProductOverview {
     private ProductCategoryOverview productCategoryOverview;
     private RestaurantOverview restaurantOverview;
     private List<String> pictures;
-    private User user;
+    private UserOverview userOverview;
 }

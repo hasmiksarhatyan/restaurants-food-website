@@ -1,18 +1,20 @@
 package com.example.restaurantsfoodwebsite.service.impl;
 
-import com.example.restaurantsfoodwebsite.dto.product.ProductDto;
+import com.example.restaurantsfoodwebsite.dto.product.CreateProductDto;
 import com.example.restaurantsfoodwebsite.dto.product.ProductOverview;
-import com.example.restaurantsfoodwebsite.entity.*;
+import com.example.restaurantsfoodwebsite.entity.Product;
+import com.example.restaurantsfoodwebsite.entity.Role;
+import com.example.restaurantsfoodwebsite.entity.User;
 import com.example.restaurantsfoodwebsite.mapper.ProductMapper;
 import com.example.restaurantsfoodwebsite.repository.ProductCategoryRepository;
 import com.example.restaurantsfoodwebsite.repository.ProductRepository;
+import com.example.restaurantsfoodwebsite.repository.RestaurantRepository;
 import com.example.restaurantsfoodwebsite.security.CurrentUser;
 import com.example.restaurantsfoodwebsite.service.ProductService;
 import com.example.restaurantsfoodwebsite.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,8 +27,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
-    private final ProductCategoryRepository productCategoryRepository;
     private final ProductMapper productMapper;
+    private final RestaurantRepository restaurantRepository;
+    private final ProductCategoryRepository productCategoryRepository;
     private final FileUtil fileUtil;
 
     @Override
@@ -57,15 +60,15 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public void addProduct(ProductDto dto, MultipartFile[] files, @AuthenticationPrincipal CurrentUser currentUser) throws IOException {
+    public void addProduct(CreateProductDto dto, MultipartFile[] files, CurrentUser currentUser) throws IOException {
         if (StringUtils.hasText(dto.getName()) && dto.getPrice() >= 0) {
             dto.setPictures(fileUtil.uploadImages(files));
-            productRepository.save(productMapper.mapToEntity(dto, currentUser));
+            productRepository.save(productMapper.mapToEntity(dto, currentUser.getUser()));
         }
     }
 
     @Override
-    public void editProduct(ProductDto dto, int id, MultipartFile[] files) throws IOException {
+    public void editProduct(CreateProductDto dto, int id, MultipartFile[] files) throws IOException {
         Optional<Product> productOptional = productRepository.findById(id);
         if (productOptional.isPresent()) {
             Product product = productOptional.get();
@@ -81,13 +84,13 @@ public class ProductServiceImpl implements ProductService {
             if (price >= 0) {
                 product.setPrice(price);
             }
-            Restaurant restaurant = dto.getRestaurant();
-            if (restaurant != null) {
-                product.setRestaurant(restaurant);
+            Integer restaurantId = dto.getRestaurantId();
+            if (restaurantId != null) {
+                product.setRestaurant(restaurantRepository.getReferenceById(restaurantId));
             }
-            ProductCategory productCategory = dto.getProductCategory();
-            if (productCategory != null) {
-                product.setProductCategory(productCategory);
+            Integer productCategoryId = dto.getProductCategoryId();
+            if (productCategoryId != null) {
+                product.setProductCategory(productCategoryRepository.getReferenceById(productCategoryId));
             }
             List<String> pictures = dto.getPictures();
             if (pictures != null) {

@@ -95,14 +95,14 @@
                 </li>
 
                 <li th:if="${currentUser.role.name == 'MANAGER'||currentUser.role.name == 'RESTAURANT_OWNER'}" class="nav-item" data-toggle="tooltip" data-placement="right" title="See All Types of Product">
-                    <a class="nav-link" href="/productCategories">
+                    <a class="nav-link" href="/productsCategories">
                         <i class="fa fa-fw fa-list-ul"></i>
                         <span class="nav-link-text">See All Types of Product</span>
                     </a>
                 </li>
 
                 <li th:if="${currentUser.role.name == 'MANAGER'}" class="nav-item" data-toggle="tooltip" data-placement="right" title="Add a New Type of Product ">
-                    <a class="nav-link" href="/productCategories/add">
+                    <a class="nav-link" href="/productsCategories/add">
                         <i class="fa fa-fw fa-plus-circle"></i>
                         <span class="nav-link-text">Add a New Type of Product</span>
                     </a>
