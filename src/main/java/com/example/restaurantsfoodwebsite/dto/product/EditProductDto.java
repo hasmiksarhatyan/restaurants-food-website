@@ -1,8 +1,5 @@
 package com.example.restaurantsfoodwebsite.dto.product;
 
-import com.example.restaurantsfoodwebsite.dto.productCategory.ProductCategoryOverview;
-import com.example.restaurantsfoodwebsite.dto.restaurant.RestaurantOverview;
-import com.example.restaurantsfoodwebsite.entity.ProductCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateProductDto {
+public class EditProductDto {
 
     private String name;
     private String description;

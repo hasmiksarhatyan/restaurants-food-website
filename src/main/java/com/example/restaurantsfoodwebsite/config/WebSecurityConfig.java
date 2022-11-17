@@ -39,17 +39,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/loginPage").permitAll()
-                .antMatchers("/users/add").permitAll()
+                .antMatchers("/users/add").not().authenticated()
                 .antMatchers("/restaurants").permitAll()
                 .antMatchers("/restaurants/indicatedRestaurant").permitAll()
                 .antMatchers("/restaurants/add").authenticated()
-                .antMatchers("/restaurants/myRestaurants").hasAuthority(Role.RESTAURANT_OWNER.name())
+                .antMatchers("/restaurants/my").hasAuthority(Role.RESTAURANT_OWNER.name())
                 .antMatchers("/users/home").authenticated()
                 .antMatchers("/restaurantsCategory").permitAll()
 //                .antMatchers("/users").hasAuthority(Role.MANAGER.name())
                 .antMatchers("/users/delete").hasAuthority(Role.MANAGER.name())
                 .antMatchers("/manager").hasAuthority(Role.MANAGER.name())
                 .antMatchers("/restaurantsCategory/add").authenticated()
+                .antMatchers("/productsCategories").hasAnyAuthority(Role.MANAGER.name(), Role.RESTAURANT_OWNER.name())
+                .antMatchers("/productsCategories/**").hasAuthority(Role.MANAGER.name())
+                .antMatchers("/products/delete/*","/products/edit/*","/products/add","/products/my").hasAnyAuthority(Role.MANAGER.name(), Role.RESTAURANT_OWNER.name())
                 .anyRequest().permitAll();
     }
 
