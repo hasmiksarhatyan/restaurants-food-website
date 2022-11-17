@@ -14,7 +14,7 @@
     <name>restaurantsfoodwebsite</name>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <lombok.version>1.18.22</lombok.version>
     </properties>
 
