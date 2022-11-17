@@ -232,7 +232,7 @@
                         <figure>
 
 
-                            <img th:if="${restaurant.pictures != null || restaurant.pictures.size != 0}" th:src="@{/restaurants/getImages(fileName=${restaurant.pictures})}"
+                            <img th:if="${restaurant.pictures != null && restaurant.pictures.size != 0}" th:src="@{/restaurants/getImages(fileName=${restaurant.pictures.get(0)})}"
                                  class="img-fluid lazy"
                                  alt="">
                             <a th:href="@{'/restaurants/' + ${restaurant.id}}" class="strip_info"></a>

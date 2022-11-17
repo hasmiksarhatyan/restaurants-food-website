@@ -19,10 +19,10 @@ public class RestaurantCategoryController {
     private final RestaurantCategoryService restaurantCategoryService;
 
     @GetMapping
-    public String restaurants(@RequestParam(value = "page", defaultValue = "0") int page,
-                              @RequestParam(value = "size",defaultValue = "5") int size,
+    public String restaurants(@RequestParam(value = "page", defaultValue = "1") int page,
+                              @RequestParam(value = "size", defaultValue = "5") int size,
                               ModelMap modelMap) {
-        Page<RestaurantCategoryOverview> categories = restaurantCategoryService.findAll(PageRequest.of(page, size));
+        Page<RestaurantCategoryOverview> categories = restaurantCategoryService.findAll(PageRequest.of(page - 1, size));
         modelMap.addAttribute("categories", categories);
         modelMap.addAttribute("pageNumbers", PageUtil.getTotalPages(categories));
         return "restaurantCategory";

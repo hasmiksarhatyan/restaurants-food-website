@@ -1,11 +1,15 @@
 package com.example.restaurantsfoodwebsite.controller;
 
+import com.example.restaurantsfoodwebsite.dto.product.ProductOverview;
+import com.example.restaurantsfoodwebsite.dto.productCategory.ProductCategoryOverview;
 import com.example.restaurantsfoodwebsite.dto.restaurant.CreateRestaurantDto;
 import com.example.restaurantsfoodwebsite.dto.restaurant.EditRestaurantDto;
 import com.example.restaurantsfoodwebsite.dto.restaurant.RestaurantOverview;
 import com.example.restaurantsfoodwebsite.entity.Restaurant;
 import com.example.restaurantsfoodwebsite.entity.Role;
 import com.example.restaurantsfoodwebsite.security.CurrentUser;
+import com.example.restaurantsfoodwebsite.service.ProductCategoryService;
+import com.example.restaurantsfoodwebsite.service.ProductService;
 import com.example.restaurantsfoodwebsite.service.RestaurantCategoryService;
 import com.example.restaurantsfoodwebsite.service.RestaurantService;
 import com.example.restaurantsfoodwebsite.util.PageUtil;
@@ -30,6 +34,8 @@ public class RestaurantController {
 
     private final RestaurantService restaurantService;
     private final RestaurantCategoryService restaurantCategoryService;
+    private final ProductService productService;
+    private final ProductCategoryService productCategoryService;
     private static String ERROR;
 
 
@@ -155,6 +161,10 @@ public class RestaurantController {
         try {
             Restaurant restaurant = restaurantService.findRestaurant(id);
             modelMap.addAttribute("restaurant", restaurant);
+            List<ProductOverview> products = productService.findProductsByRestaurant(id);
+            modelMap.addAttribute("products",products);
+            List<ProductCategoryOverview> categories = productCategoryService.findAll();
+            modelMap.addAttribute("categories",categories);
             if (currentUser == null) {
                 return "restaurantForVisitor";
             }

@@ -79,24 +79,6 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
-//    @Override
-//    public UserOverview getByEmail(String email) {
-//        Optional<User> optionalUser = userRepository.findByEmail(email);
-//        if (optionalUser.isEmpty()) {
-//            throw new IllegalStateException("User doesn't exist");
-//        }
-//        return userMapper.mapToOverview(optionalUser.get());
-//    }
-
-//    @Override
-//    public UserOverview getById(int id) {
-//        Optional<User> optionalUser = userRepository.findById(id);
-//        if (optionalUser.isEmpty()) {
-//            throw new IllegalStateException("User doesn't exist");
-//        }
-//        return userMapper.mapToOverview(optionalUser.get());
-//    }
-
     @Override
     public void changePassword(Integer id, ChangePasswordDto dto) {
         Optional<User> optionalUser = userRepository.findById(id);
