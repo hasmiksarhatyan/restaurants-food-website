@@ -74,11 +74,19 @@
                             <div id="collapse-A" class="collapse show" role="tabpanel" aria-labelledby="heading-A">
                                 <div class="card-body info_content">
                                     <h2>Menu</h2>
-                                    <div class="menu_item">
-                                        <em>€9.90</em>
-                                        <h4 >Imported Salmon Steak</h4>
-                                        <p>Base de arroz, aguacate, salmón noruego, semillas de sésamo, edamame, wakame y soja light</p>
+                                    <div th:each="category:${categories}">
+                                        <h3 th:text="${category.name}">Dessert</h3>
+                                        <div th:each="product:${products}"
+                                             th:if="${category.id==product.productCategoryOverview.id}">
+                                            <div class="menu_item">
+                                                <em th:text="${product.price}+'€'"></em>
+                                                <h4 th:text="${product.name}"></h4>
+                                                <p th:text="${product.description}"></p>
+                                            </div>
+                                        </div>
+                                        <hr>
                                     </div>
+
 
                                     <!-- /content_more -->
                                     <a href="#0" class="show_hide" data-content="toggle-text">Read More</a>

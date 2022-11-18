@@ -1,6 +1,7 @@
 package com.example.restaurantsfoodwebsite.service.impl;
 
 import com.example.restaurantsfoodwebsite.dto.product.CreateProductDto;
+import com.example.restaurantsfoodwebsite.dto.product.EditProductDto;
 import com.example.restaurantsfoodwebsite.dto.product.ProductOverview;
 import com.example.restaurantsfoodwebsite.entity.Product;
 import com.example.restaurantsfoodwebsite.entity.Role;
@@ -30,7 +31,6 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
     private final RestaurantRepository restaurantRepository;
     private final ProductCategoryRepository productCategoryRepository;
-    private final FileUtil fileUtil;
 
     @Override
     public Page<ProductOverview> sortProduct(Pageable pageable, String sort, Integer id) {
@@ -62,13 +62,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void addProduct(CreateProductDto dto, MultipartFile[] files, CurrentUser currentUser) throws IOException {
         if (StringUtils.hasText(dto.getName()) && dto.getPrice() >= 0) {
-            dto.setPictures(fileUtil.uploadImages(files));
+            dto.setPictures(FileUtil.uploadImages(files));
             productRepository.save(productMapper.mapToEntity(dto, currentUser.getUser()));
         }
     }
 
     @Override
-    public void editProduct(CreateProductDto dto, int id, MultipartFile[] files) throws IOException {
+    public void editProduct(EditProductDto dto, int id, MultipartFile[] files) throws IOException {
         Optional<Product> productOptional = productRepository.findById(id);
         if (productOptional.isPresent()) {
             Product product = productOptional.get();
@@ -94,7 +94,7 @@ public class ProductServiceImpl implements ProductService {
             }
             List<String> pictures = dto.getPictures();
             if (pictures != null) {
-                product.setPictures(fileUtil.uploadImages(files));
+                product.setPictures(FileUtil.uploadImages(files));
             }
             productRepository.save(product);
         }
@@ -102,7 +102,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public byte[] getProductImage(String fileName) throws IOException {
-        return fileUtil.getImage(fileName);
+        return FileUtil.getImage(fileName);
     }
 
     @Override

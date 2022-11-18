@@ -26,7 +26,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RestaurantServiceImpl implements RestaurantService {
 
-    private final FileUtil fileUtil;
     private final RestaurantMapper restaurantMapper;
     private final RestaurantRepository restaurantRepository;
 
@@ -62,14 +61,14 @@ public class RestaurantServiceImpl implements RestaurantService {
         if (restaurantRepository.existsByEmailIgnoreCase(dto.getEmail())) {
             throw new IllegalStateException("Email already in use");
         }
-        dto.setPictures(fileUtil.uploadImages(files));
+        dto.setPictures(FileUtil.uploadImages(files));
         User user = currentUser.getUser();
         restaurantRepository.save(restaurantMapper.mapToEntity(dto, user));
     }
 
     @Override
     public byte[] getRestaurantImage(String fileName) throws IOException {
-        return fileUtil.getImage(fileName);
+        return FileUtil.getImage(fileName);
     }
 
     @Override

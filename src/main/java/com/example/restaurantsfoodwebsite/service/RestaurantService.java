@@ -16,8 +16,6 @@ import java.util.List;
 public interface RestaurantService {
     List<RestaurantOverview> findAll();
 
-    List<RestaurantOverview> findAll();
-
     Page<RestaurantOverview> findAllRestaurants(Pageable pageable);
 
     void addRestaurant(CreateRestaurantDto restaurantDto, MultipartFile[] files, CurrentUser currentUser) throws IOException;

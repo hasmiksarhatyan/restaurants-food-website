@@ -1,6 +1,7 @@
 package com.example.restaurantsfoodwebsite.service.impl;
 
-import com.example.restaurantsfoodwebsite.dto.productCategory.ProductCategoryDto;
+import com.example.restaurantsfoodwebsite.dto.productCategory.CreateProductCategoryDto;
+import com.example.restaurantsfoodwebsite.dto.productCategory.EditProductCategoryDto;
 import com.example.restaurantsfoodwebsite.dto.productCategory.ProductCategoryOverview;
 import com.example.restaurantsfoodwebsite.entity.ProductCategory;
 import com.example.restaurantsfoodwebsite.mapper.ProductCategoryMapper;
@@ -32,14 +33,14 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     }
 
     @Override
-    public void addProductCategory(ProductCategoryDto dto) {
+    public void addProductCategory(CreateProductCategoryDto dto) {
         if (StringUtils.hasText(dto.getName())) {
             productCategoryRepository.save(productCategoryMapper.mapToEntity(dto));
         }
     }
 
     @Override
-    public void editProductCategory(ProductCategoryDto dto, int id) {
+    public void editProductCategory(EditProductCategoryDto dto, int id) {
         Optional<ProductCategory> productCategoryOptional = productCategoryRepository.findById(id);
         if (productCategoryOptional.isEmpty()) {
             throw new IllegalStateException("Sorry, something went wrong, try again.");

@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -29,8 +30,7 @@ public class Event {
 
     private double price;
 
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date eventDateTime;
+    private LocalDateTime eventDateTime;
 
     @ManyToOne
     private Restaurant restaurant;
