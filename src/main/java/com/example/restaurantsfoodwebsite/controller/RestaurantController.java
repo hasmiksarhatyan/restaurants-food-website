@@ -1,5 +1,6 @@
 package com.example.restaurantsfoodwebsite.controller;
 
+import com.example.restaurantsfoodwebsite.dto.event.EventOverview;
 import com.example.restaurantsfoodwebsite.dto.product.ProductOverview;
 import com.example.restaurantsfoodwebsite.dto.productCategory.ProductCategoryOverview;
 import com.example.restaurantsfoodwebsite.dto.restaurant.CreateRestaurantDto;
@@ -8,14 +9,12 @@ import com.example.restaurantsfoodwebsite.dto.restaurant.RestaurantOverview;
 import com.example.restaurantsfoodwebsite.entity.Restaurant;
 import com.example.restaurantsfoodwebsite.entity.Role;
 import com.example.restaurantsfoodwebsite.security.CurrentUser;
-import com.example.restaurantsfoodwebsite.service.ProductCategoryService;
-import com.example.restaurantsfoodwebsite.service.ProductService;
-import com.example.restaurantsfoodwebsite.service.RestaurantCategoryService;
-import com.example.restaurantsfoodwebsite.service.RestaurantService;
+import com.example.restaurantsfoodwebsite.service.*;
 import com.example.restaurantsfoodwebsite.util.PageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -36,6 +35,7 @@ public class RestaurantController {
     private final RestaurantCategoryService restaurantCategoryService;
     private final ProductService productService;
     private final ProductCategoryService productCategoryService;
+    private final EventService eventService;
     private static String ERROR;
 
 
@@ -162,9 +162,9 @@ public class RestaurantController {
             Restaurant restaurant = restaurantService.findRestaurant(id);
             modelMap.addAttribute("restaurant", restaurant);
             List<ProductOverview> products = productService.findProductsByRestaurant(id);
-            modelMap.addAttribute("products",products);
+            modelMap.addAttribute("products", products);
             List<ProductCategoryOverview> categories = productCategoryService.findAll();
-            modelMap.addAttribute("categories",categories);
+            modelMap.addAttribute("categories", categories);
             if (currentUser == null) {
                 return "restaurantForVisitor";
             }
@@ -174,5 +174,21 @@ public class RestaurantController {
             return "redirect:/restaurants/my";
         }
     }
+
+    @GetMapping("/{id}/events")
+    public String restaurantEvents(@PathVariable("id") int id,
+                                   @RequestParam(value = "page", defaultValue = "1") int page,
+                                   @RequestParam(value = "size", defaultValue = "6") int size,
+                                   ModelMap modelMap, Pageable pageable) {
+        Page<EventOverview> eventsPageByRestaurant = eventService.findEventsByRestaurantId(id, PageRequest.of(page - 1, size));
+        modelMap.addAttribute("events", eventsPageByRestaurant);
+        modelMap.addAttribute("restaurant", restaurantService.getRestaurant(id));
+        modelMap.addAttribute("eventsByRestaurant", eventService.findEventsByRestaurantId(id, pageable));
+        modelMap.addAttribute("products", productService.findProductsByRestaurant(id));
+        modelMap.addAttribute("categories", productCategoryService.findAll());
+        modelMap.addAttribute("pageNumbers", PageUtil.getTotalPages(eventsPageByRestaurant));
+        return "restaurantEvents";
+    }
+
 }
 

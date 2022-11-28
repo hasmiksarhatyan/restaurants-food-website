@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductCategoryDto {
+public class EditProductCategoryDto {
 
     private String name;
 }

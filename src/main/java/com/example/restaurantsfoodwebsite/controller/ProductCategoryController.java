@@ -1,6 +1,7 @@
 package com.example.restaurantsfoodwebsite.controller;
 
-import com.example.restaurantsfoodwebsite.dto.productCategory.ProductCategoryDto;
+import com.example.restaurantsfoodwebsite.dto.productCategory.CreateProductCategoryDto;
+import com.example.restaurantsfoodwebsite.dto.productCategory.EditProductCategoryDto;
 import com.example.restaurantsfoodwebsite.dto.productCategory.ProductCategoryOverview;
 import com.example.restaurantsfoodwebsite.service.ProductCategoryService;
 import com.example.restaurantsfoodwebsite.util.PageUtil;
@@ -36,7 +37,7 @@ public class ProductCategoryController {
     }
 
     @PostMapping("/add")
-    public String addProductCategory(@ModelAttribute ProductCategoryDto dto) {
+    public String addProductCategory(@ModelAttribute CreateProductCategoryDto dto) {
         productCategoryService.addProductCategory(dto);
         return "redirect:/productsCategories";
     }
@@ -49,7 +50,7 @@ public class ProductCategoryController {
     }
 
     @PostMapping("/edit/{id}")
-    public String editProductCategory(@PathVariable("id") int id, @ModelAttribute ProductCategoryDto dto) {
+    public String editProductCategory(@PathVariable("id") int id, @ModelAttribute EditProductCategoryDto dto) {
         productCategoryService.editProductCategory(dto, id);
         return "redirect:/productsCategories";
     }

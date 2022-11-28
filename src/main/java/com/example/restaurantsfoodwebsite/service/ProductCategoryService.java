@@ -1,6 +1,7 @@
 package com.example.restaurantsfoodwebsite.service;
 
-import com.example.restaurantsfoodwebsite.dto.productCategory.ProductCategoryDto;
+import com.example.restaurantsfoodwebsite.dto.productCategory.CreateProductCategoryDto;
+import com.example.restaurantsfoodwebsite.dto.productCategory.EditProductCategoryDto;
 import com.example.restaurantsfoodwebsite.dto.productCategory.ProductCategoryOverview;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,9 +13,9 @@ public interface ProductCategoryService {
 
     List<ProductCategoryOverview> findAll();
 
-    void addProductCategory(ProductCategoryDto dto);
+    void addProductCategory(CreateProductCategoryDto dto);
 
-    void editProductCategory(ProductCategoryDto dto, int id);
+    void editProductCategory(EditProductCategoryDto dto, int id);
 
     void deleteProductCategory(int id);
 

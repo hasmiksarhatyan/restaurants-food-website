@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.List;
 
 public interface RestaurantService {
-
     List<RestaurantOverview> findAll();
 
     Page<RestaurantOverview> findAllRestaurants(Pageable pageable);

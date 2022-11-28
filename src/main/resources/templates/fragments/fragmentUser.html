@@ -81,14 +81,14 @@
                 </li>
 
                 <li th:if="${currentUser.role.name == 'MANAGER'}" class="nav-item" data-toggle="tooltip" data-placement="right" title="See all Events">
-                    <a class="nav-link" href="/manager/events">
+                    <a class="nav-link" href="/events/manager">
                         <i class="fa fa-fw fa-list-ul"></i>
                         <span class="nav-link-text">See All Events</span>
                     </a>
                 </li>
 
                 <li th:if="${currentUser.role.name == 'MANAGER'}" class="nav-item" data-toggle="tooltip" data-placement="right" title="Add a New Event">
-                    <a class="nav-link" href="/manager/events/add">
+                    <a class="nav-link" href="/events/add">
                         <i class="fa fa-fw fa-plus-circle"></i>
                         <span class="nav-link-text">Add a New Event</span>
                     </a>
