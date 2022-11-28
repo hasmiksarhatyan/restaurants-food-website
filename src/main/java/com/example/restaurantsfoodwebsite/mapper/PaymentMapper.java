@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 
 import java.util.List;
 
-
 @Mapper(componentModel = "spring")
 public interface PaymentMapper {
 

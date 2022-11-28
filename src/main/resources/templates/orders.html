@@ -14,7 +14,7 @@
         <th>User Name</th>
     </tr>
 
-    <tr th:each="order: ${orders}">
+    <tr th:each="order: ${orders.content}">
         <td th:text="${order.additionalAddress}"></td>
         <td th:text="${order.orderStatus}"></td>
         <td th:text="${order.phoneNumber}"></td>
@@ -29,5 +29,11 @@
     <a href="/orders/add">To add a new order</a>
 
 </table>
+<div th:if="${orders.totalPages>0}" class="pagination"
+     th:each="pageNumber:${pageNumbers}">
+    <a th:href="@{/orders(size=${orders.size}, page=${pageNumber})}"
+       th:text="${pageNumber +1}"
+       th:class="${pageNumber==orders.number}? active"></a>
+</div>
 </body>
 </html>

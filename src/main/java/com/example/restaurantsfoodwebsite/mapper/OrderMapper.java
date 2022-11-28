@@ -1,6 +1,5 @@
 package com.example.restaurantsfoodwebsite.mapper;
 
-import com.example.restaurantsfoodwebsite.dto.order.CreateOrderDto;
 import com.example.restaurantsfoodwebsite.dto.order.OrderOverview;
 import com.example.restaurantsfoodwebsite.entity.Order;
 import org.mapstruct.Mapper;
@@ -11,8 +10,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface OrderMapper {
-
-    Order mapToEntity(CreateOrderDto createOrderDto);
 
     OrderOverview mapToDto(Order order);
 

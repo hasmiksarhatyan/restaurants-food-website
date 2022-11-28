@@ -29,6 +29,8 @@ public class Order {
     @CreationTimestamp
     private LocalDateTime orderAt;
 
+    private double totalPrice;
+
     @Enumerated(value = EnumType.STRING)
     private OrderStatus status;
 
@@ -40,4 +42,6 @@ public class Order {
 
     @ManyToOne
     private User user;
+
+    private boolean isPaid;
 }

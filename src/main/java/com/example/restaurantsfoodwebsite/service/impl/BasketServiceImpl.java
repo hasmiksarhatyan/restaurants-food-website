@@ -3,6 +3,7 @@ package com.example.restaurantsfoodwebsite.service.impl;
 import com.example.restaurantsfoodwebsite.dto.basket.BasketOverview;
 import com.example.restaurantsfoodwebsite.entity.Basket;
 import com.example.restaurantsfoodwebsite.entity.Product;
+import com.example.restaurantsfoodwebsite.entity.User;
 import com.example.restaurantsfoodwebsite.mapper.BasketMapper;
 import com.example.restaurantsfoodwebsite.repository.BasketRepository;
 import com.example.restaurantsfoodwebsite.repository.ProductRepository;
@@ -28,14 +29,20 @@ public class BasketServiceImpl implements BasketService {
     private final ProductRepository productRepository;
 
     @Override
-    public Page<BasketOverview> getBaskets(Pageable pageable) {
-        Page<Basket> all = basketRepository.findAll(pageable);
-        List<BasketOverview> basketOverviews = basketMapper.mapToDto(all);
+    public Page<BasketOverview> getBaskets(Pageable pageable, User user) {
+        Page<Basket> basketByUser = basketRepository.findBasketByUser(user, pageable);
+        if (basketByUser.isEmpty()) {
+            throw new IllegalStateException("You don't have a basket");
+        }
+        List<BasketOverview> basketOverviews = basketMapper.mapToDto(basketByUser);
         return new PageImpl<>(basketOverviews, pageable, basketOverviews.size());
     }
 
     @Override
     public void addBasket(int id, CurrentUser currentUser) {
+        if (currentUser == null) {
+            throw new IllegalStateException();
+        }
         Basket basket = new Basket();
         Optional<Product> productOptional = productRepository.findById(id);
         if (productOptional.isEmpty()) {
@@ -49,16 +56,20 @@ public class BasketServiceImpl implements BasketService {
             basketRepository.save(basket);
         } else {
             basket = basketRepository.findByProductAndUser(product, currentUser.getUser());
-            basket.setQuantity(basket.getQuantity()+1);
+            basket.setQuantity(basket.getQuantity() + 1);
             basketRepository.save(basket);
         }
     }
 
     @Override
     public void delete(int id) {
-        if (!basketRepository.existsById(id)) {
+        if (!basketRepository.existsByProductId(id)) {
             throw new IllegalStateException();
         }
-        basketRepository.deleteById(id);
+        Basket basket = basketRepository.findBasketByProductId(id);
+        double quantity = basket.getQuantity();
+        quantity = quantity-1;
+        basket.setQuantity(quantity);
+        basketRepository.save(basket);
     }
 }

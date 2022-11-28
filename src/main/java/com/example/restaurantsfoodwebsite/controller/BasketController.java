@@ -25,21 +25,6 @@ public class BasketController {
 
     private final BasketService basketService;
 
-    @GetMapping
-    public String baskets(@RequestParam(value = "page", defaultValue = "0") int page,
-                          @RequestParam(value = "size", defaultValue = "5") int size,
-                          ModelMap modelMap) {
-        Page<BasketOverview> baskets = basketService.getBaskets(PageRequest.of(page, size));
-        modelMap.addAttribute("baskets", baskets);
-        List<Integer> pageNumbers = getTotalPages(baskets);
-        modelMap.addAttribute("pageNumbers", pageNumbers);
-        return "baskets";
-    }
-//    @GetMapping("/add")
-//    public String addBasketPage() {
-//        return "addBasket";
-//    }
-
     @GetMapping("/add/{id}")
     public String addBasket(@PathVariable("id") int id,
                             @AuthenticationPrincipal CurrentUser currentUser) {
@@ -47,9 +32,29 @@ public class BasketController {
             basketService.addBasket(id, currentUser);
             return "redirect:/baskets";
         } catch (IllegalStateException e) {
-            return "redirect:/baskets";
+            return "index";
         }
     }
+
+    @GetMapping
+    public String baskets(@RequestParam(value = "page", defaultValue = "0") int page,
+                          @RequestParam(value = "size", defaultValue = "5") int size,
+                          @AuthenticationPrincipal CurrentUser currentUser,
+                          ModelMap modelMap) {
+        try {
+            Page<BasketOverview> baskets = basketService.getBaskets(PageRequest.of(page, size), currentUser.getUser());
+            modelMap.addAttribute("baskets", baskets);
+            List<Integer> pageNumbers = getTotalPages(baskets);
+            modelMap.addAttribute("pageNumbers", pageNumbers);
+            return "baskets";
+        } catch (IllegalStateException e) {
+            return "redirect:/users/home";
+        }
+    }
+//    @GetMapping("/add")
+//    public String addBasketPage() {
+//        return "addBasket";
+//    }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") int id, ModelMap modelMap) {

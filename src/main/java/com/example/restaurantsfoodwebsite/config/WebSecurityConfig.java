@@ -51,8 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/users").hasAuthority(Role.MANAGER.name())
                 .antMatchers("/users/delete").hasAuthority(Role.MANAGER.name())
                 .antMatchers("/events/add", "events/delete/*", "/events/edit/*", "/events/manager").hasAuthority(Role.MANAGER.name()).antMatchers("/events/add", "events/delete/*", "/events/edit/*").hasAuthority(Role.MANAGER.name())
-                .antMatchers("/productsCategories").hasAnyAuthority(Role.MANAGER.name(), Role.RESTAURANT_OWNER.name())
-                .antMatchers("/productsCategories/**").hasAuthority(Role.MANAGER.name())
+                .antMatchers("/productCategories").hasAnyAuthority(Role.MANAGER.name(), Role.RESTAURANT_OWNER.name())
+                .antMatchers("/productCategories/**").hasAuthority(Role.MANAGER.name())
                 .antMatchers("/products/delete/*", "/products/edit/*", "/products/add", "/products/my").hasAnyAuthority(Role.MANAGER.name(), Role.RESTAURANT_OWNER.name())
                 .anyRequest().permitAll();
     }

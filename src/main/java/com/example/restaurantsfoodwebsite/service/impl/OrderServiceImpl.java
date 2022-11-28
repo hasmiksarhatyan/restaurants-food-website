@@ -1,6 +1,5 @@
 package com.example.restaurantsfoodwebsite.service.impl;
 
-import com.example.restaurantsfoodwebsite.dto.order.CreateOrderDto;
 import com.example.restaurantsfoodwebsite.dto.order.OrderOverview;
 import com.example.restaurantsfoodwebsite.entity.Order;
 import com.example.restaurantsfoodwebsite.mapper.OrderMapper;
@@ -31,8 +30,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void addOrder(CreateOrderDto dto) {
-        orderRepository.save(orderMapper.mapToEntity(dto));
+    public Order addOrder(Order order) {
+      return orderRepository.save(order);
     }
 
     @Override
