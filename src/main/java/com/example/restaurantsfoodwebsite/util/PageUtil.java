@@ -10,7 +10,7 @@ import java.util.stream.IntStream;
 @UtilityClass
 public class PageUtil {
 
-    public List<Integer> getTotalPages(Page<?> object) {
+    public static List<Integer> getTotalPages(Page<?> object) {
         int totalPages = object.getTotalPages();
         if (totalPages > 0) {
             return IntStream.rangeClosed(1, totalPages)

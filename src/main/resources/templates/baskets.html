@@ -1,3 +1,34 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org/">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Show All Baskets</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<table>-->
+
+<!--    <tr>-->
+<!--        <th>Quantity</th>-->
+<!--        <th>Product</th>-->
+<!--        <th>User Name</th>-->
+<!--    </tr>-->
+
+<!--    <tr th:each="basket: ${baskets}">-->
+<!--        <td th:text="${basket.quantity}"></td>-->
+<!--        <td th:text="${basket.productOverview}"></td>-->
+<!--        <td th:text="${basket.userOverview}"></td>-->
+
+<!--        <td><a th:href="@{/baskets/delete(id=${basket.id})}">Delete the basket</a></td>-->
+<!--        <br th:if="errorMessageId !=null">-->
+<!--        <span style="color: red" th:if="errorMessageId !=null" th:text="errorMessageId"></span>-->
+<!--    </tr>-->
+<!--    <a href="/baskets/add">To add a new basket</a>-->
+
+<!--</table>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
@@ -11,20 +42,21 @@
     <tr>
         <th>Quantity</th>
         <th>Product</th>
-        <th>User Name</th>
+        <!--        <th>User Name</th>-->
     </tr>
 
     <tr th:each="basket: ${baskets}">
         <td th:text="${basket.quantity}"></td>
         <td th:text="${basket.productOverview}"></td>
-        <td th:text="${basket.userOverview}"></td>
+        <!--        <td th:text="${basket.userOverview}"></td>-->
+
+        <td><a th:href="@{/baskets/add(id=${basket.id})}">Delete the basket</a></td>
+
 
         <td><a th:href="@{/baskets/delete(id=${basket.id})}">Delete the basket</a></td>
         <br th:if="errorMessageId !=null">
         <span style="color: red" th:if="errorMessageId !=null" th:text="errorMessageId"></span>
     </tr>
-    <a href="/baskets/add">To add a new basket</a>
-
 </table>
 </body>
 </html>
