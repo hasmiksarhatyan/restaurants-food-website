@@ -39,6 +39,35 @@
                         <span class="nav-link-text">Home</span>
                     </a>
                 </li>
+
+<!--                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My profile">-->
+<!--                    <a class="nav-link" href="/manager">-->
+<!--                        <i class="fa fa-fw fa-user"></i>-->
+<!--                        <span class="nav-link-text">My Profile</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+
+                <li th:if="${currentUser.role.name == 'MANAGER'}" class="nav-item" data-toggle="tooltip" data-placement="right" title="My profile">
+                    <a class="nav-link" href="/baskets">
+                        <i class="fa fa-fw fa-user"></i>
+                        <span class="nav-link-text">Basket</span>
+                    </a>
+                </li>
+
+                <li th:if="${currentUser.role.name == 'CUSTOMER'}" class="nav-item" data-toggle="tooltip" data-placement="right" title="My profile">
+                    <a class="nav-link" href="/baskets">
+                        <i class="fa fa-fw fa-user"></i>
+                        <span class="nav-link-text">My Basket</span>
+                    </a>
+                </li>
+
+                <li th:if="${currentUser.role.name == 'RESTAURANT_OWNER'}" class="nav-item" data-toggle="tooltip" data-placement="right" title="My profile">
+                    <a class="nav-link" href="/baskets">
+                        <i class="fa fa-fw fa-user"></i>
+                        <span class="nav-link-text">My Basket</span>
+                    </a>
+                </li>
+
                 <li th:if="${currentUser.role.name == 'MANAGER'}" class="nav-item" data-toggle="tooltip" data-placement="right" title="See All Users">
                     <a class="nav-link" href="/users">
                         <i class="fa fa-fw fa-list-ul"></i>
@@ -96,14 +125,14 @@
                 </li>
 
                 <li th:if="${currentUser.role.name == 'MANAGER'||currentUser.role.name == 'RESTAURANT_OWNER'}" class="nav-item" data-toggle="tooltip" data-placement="right" title="See All Types of Product">
-                    <a class="nav-link" href="/productsCategories">
+                    <a class="nav-link" href="/productCategories">
                         <i class="fa fa-fw fa-list-ul"></i>
                         <span class="nav-link-text">See All Types of Product</span>
                     </a>
                 </li>
 
                 <li th:if="${currentUser.role.name == 'MANAGER'}" class="nav-item" data-toggle="tooltip" data-placement="right" title="Add a New Type of Product ">
-                    <a class="nav-link" href="/productsCategories/add">
+                    <a class="nav-link" href="/productCategories/add">
                         <i class="fa fa-fw fa-plus-circle"></i>
                         <span class="nav-link-text">Add a New Type of Product</span>
                     </a>

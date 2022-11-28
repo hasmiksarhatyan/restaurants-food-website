@@ -114,11 +114,15 @@
                 </a>
               </figure>
               <ul>
-                <li><span th:text="${product.price}"></span></li>
+                <li><span th:text="${product.price}"></span></li><br>
+
                 <li>
-                  <div class="score"><span><a href="/basket" class="btn_hero wishlist"><i class="icon_heart"></i>Wishlist</a></span></div>
+                  <td><a th:href="@{'/baskets/add/'+ ${product.id}}"><i class="icon_heart"></i>Add To Basket<br>
+
+                    <span style="color: darkgreen">Please, register first to add item to the basket</span>
                 </li>
               </ul>
+
               <ul></ul>
             </div>
           </div>
@@ -126,14 +130,14 @@
         </div>
         <!-- /row -->
         <table class="pagination_fg">
-          <th href="#">&laquo;</th>
+          <th href="#"></th>
             <th th:if="${products.totalPages > 0}" th:each="pageNumber : ${pageNumbers}" class="page-item">
               <a class="active" th:href="@{/products/(size=${products.size}, page=${pageNumber})}"
                  th:text="${pageNumber}"
                  th:class="${pageNumber==products.number + 1} ? active">
               </a>
             </th>
-          <th href="#">&raquo;</th>
+          <th href="#"></th>
         </table>
       </div>
       <!-- /col -->

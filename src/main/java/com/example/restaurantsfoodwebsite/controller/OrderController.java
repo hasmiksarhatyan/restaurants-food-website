@@ -1,6 +1,5 @@
 package com.example.restaurantsfoodwebsite.controller;
 
-import com.example.restaurantsfoodwebsite.dto.order.CreateOrderDto;
 import com.example.restaurantsfoodwebsite.dto.order.OrderOverview;
 import com.example.restaurantsfoodwebsite.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -30,17 +29,6 @@ public class OrderController {
         List<Integer> pageNumbers = getTotalPages(orders);
         modelMap.addAttribute("pageNumbers", pageNumbers);
         return "orders";
-    }
-
-    @GetMapping("/add")
-    public String addOrderPage() {
-        return "addOrder";
-    }
-
-    @PostMapping("/add")
-    public String addOrder(@ModelAttribute CreateOrderDto dto) {
-        orderService.addOrder(dto);
-        return "redirect:/orders";
     }
 
     @GetMapping("/delete/{id}")

@@ -23,15 +23,12 @@ public class Payment {
     @Enumerated(value = EnumType.STRING)
     private PaymentOption paymentOption;
 
-    private Double paymentAmount;
+    private double totalPrice;
 
     @CreationTimestamp
     private LocalDateTime paidAt;
 
     @ManyToOne
     private User user;
-
-    @OneToOne
-    private Order order;
 }
 

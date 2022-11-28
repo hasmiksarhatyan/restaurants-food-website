@@ -1,15 +1,25 @@
 package com.example.restaurantsfoodwebsite.controller;
 
+import com.example.restaurantsfoodwebsite.dto.creditCard.CreateCreditCardDto;
 import com.example.restaurantsfoodwebsite.dto.payment.CreatePaymentDto;
 import com.example.restaurantsfoodwebsite.dto.payment.PaymentOverview;
+import com.example.restaurantsfoodwebsite.entity.Order;
+import com.example.restaurantsfoodwebsite.entity.OrderStatus;
+import com.example.restaurantsfoodwebsite.entity.PaymentOption;
+import com.example.restaurantsfoodwebsite.repository.PaymentRepository;
+import com.example.restaurantsfoodwebsite.security.CurrentUser;
+import com.example.restaurantsfoodwebsite.service.OrderService;
 import com.example.restaurantsfoodwebsite.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.ManyToOne;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.example.restaurantsfoodwebsite.util.PageUtil.getTotalPages;
@@ -20,6 +30,8 @@ import static com.example.restaurantsfoodwebsite.util.PageUtil.getTotalPages;
 public class PaymentController {
 
     private final PaymentService paymentService;
+    private final PaymentRepository paymentRepository;
+    private final OrderService orderService;
 
     @GetMapping
     public String payments(@RequestParam(value = "page", defaultValue = "0") int page,
@@ -38,9 +50,25 @@ public class PaymentController {
     }
 
     @PostMapping("/add")
-    public String addPayment(@ModelAttribute CreatePaymentDto createPaymentDto) {
-        paymentService.addPayment(createPaymentDto);
-        return "redirect:/payments";
+    public String addPayment(@ModelAttribute CreatePaymentDto createPaymentDto,
+                             @ModelAttribute  CreateCreditCardDto creditCardDto,
+                             @AuthenticationPrincipal CurrentUser currentUser,
+                             ModelMap modelMap) {
+        PaymentOption option = createPaymentDto.getPaymentOption();
+        if (option == PaymentOption.CREDIT_CARD) {
+            paymentService.addPayment(createPaymentDto,creditCardDto,currentUser.getUser());
+            modelMap.addAttribute("message","Something went wrong, Try again!");
+            return "products";
+        } else {
+            orderService.addOrder(Order.builder()
+                            .orderAt(LocalDateTime.now())
+                            .isPaid(false)
+                            .status(OrderStatus.NEW)
+                            .user(currentUser.getUser())
+                            .totalPrice(createPaymentDto.getTotalPrice())
+                    .build());
+            return "products";
+        }
     }
 
     @GetMapping("/delete/{id}")
@@ -53,5 +81,4 @@ public class PaymentController {
             return "payments";
         }
     }
-
 }

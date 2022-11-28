@@ -49,13 +49,21 @@ public class ProductServiceImpl implements ProductService {
             default:
                 products = productRepository.findAll(pageable);
         }
-
         return products.map(productMapper::mapToOverview);
-
     }
 
+    @Override
     public List<ProductOverview> findAll() {
         return productMapper.mapToOverviewList(productRepository.findAll());
+    }
+
+    @Override
+    public List<ProductOverview> findAllById(int id) {
+        List<Product> products = productRepository.findAllById(id);
+        if (products.isEmpty()) {
+            throw new IllegalStateException();
+        }
+        return productMapper.mapToOverviewList(products);
     }
 
 

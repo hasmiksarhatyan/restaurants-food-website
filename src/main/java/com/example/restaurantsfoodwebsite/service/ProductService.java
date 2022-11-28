@@ -17,6 +17,8 @@ public interface ProductService {
 
     List<ProductOverview> findAll();
 
+    List<ProductOverview> findAllById(int id);
+
     void addProduct(CreateProductDto dto, MultipartFile[] files, CurrentUser currentUser) throws IOException;
 
     void editProduct(EditProductDto dto, int id, MultipartFile[] files) throws IOException;
@@ -26,7 +28,6 @@ public interface ProductService {
     void deleteProduct(int id, User user);
 
     ProductOverview findById(int id);
-
 
     List<ProductOverview> findProductByUser(User user);
 
