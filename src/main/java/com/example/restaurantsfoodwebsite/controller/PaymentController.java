@@ -8,6 +8,7 @@ import com.example.restaurantsfoodwebsite.entity.OrderStatus;
 import com.example.restaurantsfoodwebsite.entity.PaymentOption;
 import com.example.restaurantsfoodwebsite.repository.PaymentRepository;
 import com.example.restaurantsfoodwebsite.security.CurrentUser;
+import com.example.restaurantsfoodwebsite.service.BasketService;
 import com.example.restaurantsfoodwebsite.service.OrderService;
 import com.example.restaurantsfoodwebsite.service.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ public class PaymentController {
     private final PaymentService paymentService;
     private final PaymentRepository paymentRepository;
     private final OrderService orderService;
+    private final BasketService basketService;
 
     @GetMapping
     public String payments(@RequestParam(value = "page", defaultValue = "0") int page,
@@ -44,29 +46,35 @@ public class PaymentController {
         return "payments";
     }
 
-    @GetMapping("/add")
-    public String addPaymentPage() {
-        return "addPayment";
-    }
+//    @GetMapping("/add")
+//    public String addPaymentPage() {
+//        return "addPayment";
+//    }
 
     @PostMapping("/add")
     public String addPayment(@ModelAttribute CreatePaymentDto createPaymentDto,
-                             @ModelAttribute  CreateCreditCardDto creditCardDto,
+                             @ModelAttribute CreateCreditCardDto creditCardDto,
                              @AuthenticationPrincipal CurrentUser currentUser,
                              ModelMap modelMap) {
         PaymentOption option = createPaymentDto.getPaymentOption();
         if (option == PaymentOption.CREDIT_CARD) {
-            paymentService.addPayment(createPaymentDto,creditCardDto,currentUser.getUser());
-            modelMap.addAttribute("message","Something went wrong, Try again!");
-            return "products";
+            try {
+                paymentService.addPayment(createPaymentDto, creditCardDto, currentUser.getUser());
+                modelMap.addAttribute("message", "Your purchase has been confirmed!");
+                return "products";
+            } catch (IllegalStateException e) {
+                modelMap.addAttribute("messageError", "Wrong or Expired Credit Card");
+                return "products";
+            }
         } else {
             orderService.addOrder(Order.builder()
-                            .orderAt(LocalDateTime.now())
-                            .isPaid(false)
-                            .status(OrderStatus.NEW)
-                            .user(currentUser.getUser())
-                            .totalPrice(createPaymentDto.getTotalPrice())
+                    .orderAt(LocalDateTime.now())
+                    .isPaid(false)
+                    .status(OrderStatus.NEW)
+                    .user(currentUser.getUser())
+                    .totalPrice(createPaymentDto.getTotalPrice())
                     .build());
+            modelMap.addAttribute("message", "Your purchase has been confirmed!");
             return "products";
         }
     }

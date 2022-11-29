@@ -29,18 +29,11 @@
                 <div class="col-xl-8 col-lg-7 col-md-7 d-none d-md-block">
                     <div class="breadcrumbs blog">
                         <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Category</a></li>
+                            <li><a href="/">Home</a></li>
+                            <li><a th:href="@{'/products'}">Products</a></li>
+                            <li><a th:href="@{'/restaurants'}">Restaurants</a></li>
                             <li>Page active</li>
                         </ul>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-5 col-md-5">
-                    <div class="search_bar_list">
-                        <label>
-                            <input type="text" class="form-control" placeholder="Search in blog...">
-                        </label>
-                        <input type="submit" value="Search">
                     </div>
                 </div>
             </div>
@@ -57,8 +50,8 @@
                         <article class="blog">
                             <figure>
                                 <a th:href="'/events/'+${event.id}"><img th:if="${event.pictures != null && !event.pictures.isEmpty()}"
-                                                      th:src="@{/events/getImages(fileName=${event.getPictures().get(0)})}"
-                                                      alt="" src=""></a>
+                                                                         th:src="@{/events/getImages(fileName=${event.getPictures().get(0)})}"
+                                                                         alt="" src=""></a>
                                 <div class="preview"><span>Read more</span></div>
                             </figure>
                             <div class="post_info">
@@ -125,8 +118,8 @@
                 <!-- /row -->
                 <table class="pagination_fg">
                     <th th:if="${events.totalPages>0}"
-                         th:each="pageNumber:${pageNumbers}">
-                         <a class="active" th:href="@{/events(size=${events.size}, page=${pageNumber})}"
+                        th:each="pageNumber:${pageNumbers}">
+                        <a class="active" th:href="@{/events(size=${events.size}, page=${pageNumber})}"
                            th:text="${pageNumber}"
                            th:class="${pageNumber==events.number+1}? active"></a>
                     </th>
