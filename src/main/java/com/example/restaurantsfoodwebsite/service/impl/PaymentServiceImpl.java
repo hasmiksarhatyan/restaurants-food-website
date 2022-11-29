@@ -72,10 +72,10 @@ public class PaymentServiceImpl implements PaymentService {
         String userName = format("%s %s",user.getFirstName(),user.getLastName());
 
         if(!cardHolder.equalsIgnoreCase(userName)){
-            throw new IllegalStateException("Wrong Credit Card");
+            throw new IllegalStateException();
         }
         if(creditCardDto.getCardExpiresAt().isBefore(now())){
-            throw new IllegalStateException("Expired Credit Card");
+            throw new IllegalStateException();
         }
     }
 

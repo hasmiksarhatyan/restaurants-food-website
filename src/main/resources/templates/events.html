@@ -29,18 +29,11 @@
                 <div class="col-xl-8 col-lg-7 col-md-7 d-none d-md-block">
                     <div class="breadcrumbs blog">
                         <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Category</a></li>
+                            <li><a href="/">Home</a></li>
+                            <li><a th:href="@{'/products'}">Products</a></li>
+                            <li><a th:href="@{'/restaurants'}">Restaurants</a></li>
                             <li>Page active</li>
                         </ul>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-5 col-md-5">
-                    <div class="search_bar_list">
-                        <label>
-                            <input type="text" class="form-control" placeholder="Search in blog...">
-                        </label>
-                        <input type="submit" value="Search">
                     </div>
                 </div>
             </div>

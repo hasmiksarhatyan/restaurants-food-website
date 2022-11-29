@@ -68,7 +68,7 @@ public class BasketServiceImpl implements BasketService {
         }
         Basket basket = basketRepository.findBasketByProductId(id);
         double quantity = basket.getQuantity();
-        quantity = quantity-1;
+        quantity = quantity - 1;
         basket.setQuantity(quantity);
         basketRepository.save(basket);
     }

@@ -23,7 +23,6 @@
         <td><a th:href="@{'/orders/delete/' + ${order.id}}">Delete the order</a></td>
         <br th:if="errorMessageId !=null">
         <span th:if="errorMessageId !=null" th:text="${errorMessageId}"></span>
-
     </tr>
 
     <a href="/orders/add">To add a new order</a>

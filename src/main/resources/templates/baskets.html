@@ -221,58 +221,54 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <div th:each="basket: ${baskets.content}" th:with="totalPrice=0">
-                        <tr >
-                            <td th:text="${basket.quantity}"></td>
-                            <td th:text="${basket.product.name}"></td>
-                            <td th:text="${basket.user.firstName}"></td>
+                        <div th:each="basket:${baskets.content}" th:with="totalPrice=0">
+                            <tr>
+                                <td th:text="${basket.quantity}"></td>
+                                <td th:text="${basket.product.name}"></td>
+                                <td th:text="${basket.user.firstName}"></td>
+                                <td><a th:href="@{'/baskets/delete/'+ ${basket.product.id}}"
+                                       th:with="totalPrice=${totalPrice + basket.product.price}">Delete the item</a>
+                                </td>
+                            </tr>
 
-                            <td><a th:href="@{'/baskets/delete/'+ ${basket.product.id}}"
-                            th:with="totalPrice=${totalPrice + basket.product.price}">Delete the item</a></td>
-                        </tr>
-
-                        <form action="/payments/add" method="post">
-
-                            <select name="paymentOption">
-                                <option value="CASH">CASH</option>
-                                <option value="CREDIT_CARD">CREDIT CARD</option>
-                            </select><br>
-
-                            <input type="hidden" name="amount" , th:value="${totalPrice}"><br>
-                            <input type="date" name="cardExpiresAt" placeholder="Expiration Date">
-                            <br>
-                            <input type="text" name="cardHolder" placeholder="Card Holder">
-                            <br>
-                            <input type="text" name="cvv" placeholder="CVV">
-                            <br>
-                            <input type="text" name="cardNumber" placeholder="Card Number">
-
-                            <input type="submit" value="Order">
-                        </form>
-                </div>
-
-                <!--                            <td><a th:href="@{'/payments/add'}">Order</a></td>-->
-                <!--                            <td><a th:href="@{'/orders/add/'}">Order</a></td>-->
+                            <form action="/payments/add" method="post">
+                                <select name="paymentOption">
+                                    <option value="CASH">CASH</option>
+                                    <option value="CREDIT_CARD">CREDIT CARD</option>
+                                </select><br>
+                                <input type="hidden" name="amount" , th:value="${totalPrice}"><br>
+                                <input type="date" name="cardExpiresAt" placeholder="Expiration Date">
+                                <br>
+                                <input type="text" name="cardHolder" placeholder="Card Holder">
+                                <br>
+                                <input type="text" name="cvv" placeholder="CVV">
+                                <br>
+                                <input type="text" name="cardNumber" placeholder="Card Number">
+                                <input type="submit" value="Order">
+                            </form>
+                        </div>
+                        <!--                            <td><a th:href="@{'/payments/add'}">Order</a></td>-->
+                        <!--                            <td><a th:href="@{'/orders/add/'}">Order</a></td>-->
 
 
-                <!--                            <td><a th:href="@{'/users/delete/'+ ${user.id}}"><strong>Delete</strong></a>-->
-                <!--                            <br th:if="errorMessageId !=null">-->
-                <!--                            <span style="color: red" th:if="errorMessageId !=null" th:text="errorMessageId"></span>-->
+                        <!--                            <td><a th:href="@{'/users/delete/'+ ${user.id}}"><strong>Delete</strong></a>-->
+                        <!--                            <br th:if="errorMessageId !=null">-->
+                        <!--                            <span style="color: red" th:if="errorMessageId !=null" th:text="errorMessageId"></span>-->
 
-                </tbody>
-                </table>
-                <div th:if="${baskets.totalPages>0}" class="pagination"
-                     th:each="pageNumber:${pageNumbers}">
-                    <a th:href="@{/baskets(size=${baskets.size}, page=${pageNumber})}"
-                       th:text="${pageNumber +1}"
-                       th:class="${pageNumber==baskets.number}? active"></a>
+                        </tbody>
+                    </table>
+                    <div th:if="${baskets.totalPages>0}" class="pagination"
+                         th:each="pageNumber:${pageNumbers}">
+                        <a th:href="@{/baskets(size=${baskets.size}, page=${pageNumber})}"
+                           th:text="${pageNumber +1}"
+                           th:class="${pageNumber==baskets.number}? active"></a>
+                    </div>
                 </div>
             </div>
         </div>
+        <!-- /tables-->
     </div>
-    <!-- /tables-->
-</div>
-<!-- /container-fluid-->
+    <!-- /container-fluid-->
 </div>
 <!-- /container-wrapper-->
 <footer class="sticky-footer">
