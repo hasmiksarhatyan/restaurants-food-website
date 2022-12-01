@@ -555,11 +555,11 @@
                 <div class="box_booking">
                     <div class="head">
                         <h3>Book your table</h3>
-                        <div class="offer">Up to -40% off</div>
                     </div>
                     <!-- /head -->
                     <div class="main">
-                        <input type="text" id="datepicker_field">
+                        <input type="Date" name="reservedDate"
+                           id="datepicker_field">
                         <div id="DatePicker"></div>
                         <div class="dropdown time">
                             <a href="//detail-restaurant-2.html#" data-bs-toggle="dropdown">Hour <span
@@ -573,43 +573,8 @@
                                                 <input type="radio" id="time_1" name="time" value="12.00am">
                                                 <label for="time_1">12.00<em>-40%</em></label>
                                             </li>
-                                            <li>
-                                                <input type="radio" id="time_2" name="time" value="08.30pm">
-                                                <label for="time_2">12.30<em>-40%</em></label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" id="time_3" name="time" value="09.00pm">
-                                                <label for="time_3">1.00<em>-40%</em></label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" id="time_4" name="time" value="09.30pm">
-                                                <label for="time_4">1.30<em>-40%</em></label>
-                                            </li>
                                         </ul>
                                     </div>
-                                    <!-- /time_select -->
-                                    <h4>Dinner</h4>
-                                    <div class="radio_select">
-                                        <ul>
-                                            <li>
-                                                <input type="radio" id="time_5" name="time" value="08.00pm">
-                                                <label for="time_1">20.00<em>-40%</em></label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" id="time_6" name="time" value="08.30pm">
-                                                <label for="time_2">20.30<em>-40%</em></label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" id="time_7" name="time" value="09.00pm">
-                                                <label for="time_3">21.00<em>-40%</em></label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" id="time_8" name="time" value="09.30pm">
-                                                <label for="time_4">21.30<em>-40%</em></label>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <!-- /time_select -->
                                 </div>
                             </div>
                         </div>
@@ -623,20 +588,8 @@
                                     <div class="radio_select">
                                         <ul>
                                             <li>
-                                                <input type="radio" id="people_1" name="people" value="1">
-                                                <label for="people_1">1<em>-40%</em></label>
-                                            </li>
-                                            <li>
                                                 <input type="radio" id="people_2" name="people" value="2">
                                                 <label for="people_2">2<em>-40%</em></label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" id="people_3" name="people" value="3">
-                                                <label for="people_3">3<em>-40%</em></label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" id="people_4" name="people" value="4">
-                                                <label for="people_4">4<em>-40%</em></label>
                                             </li>
                                         </ul>
                                     </div>
@@ -645,9 +598,7 @@
                             </div>
                         </div>
                         <!-- /dropdown -->
-                        <a href="//detail-restaurant-2.html#0" class="btn_1 full-width mb_5">Reserve Now</a>
-                        <a href="//wishlist.html" class="btn_1 full-width outline wishlist"><i class="icon_heart"></i>
-                            Add to wishlist</a>
+                        <a th:href="@{'/restaurants/'+${restaurant.id}+'/reserve'}" class="btn_1 full-width mb_5">Reserve Now</a>
                     </div>
                 </div>
 

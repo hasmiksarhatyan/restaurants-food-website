@@ -77,7 +77,7 @@ public class ProductController {
     public String addProduct(@ModelAttribute CreateProductDto dto, @RequestParam("productImage") MultipartFile[] files,
                              @AuthenticationPrincipal CurrentUser currentUser) throws IOException {
 
-        productService.addProduct(dto, files, currentUser);
+        productService.addProduct(dto, files,currentUser.getUser());
         return "redirect:/products/my";
     }
 
