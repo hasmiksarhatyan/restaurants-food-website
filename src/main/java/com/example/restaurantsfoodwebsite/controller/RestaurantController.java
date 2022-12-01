@@ -3,6 +3,7 @@ package com.example.restaurantsfoodwebsite.controller;
 import com.example.restaurantsfoodwebsite.dto.event.EventOverview;
 import com.example.restaurantsfoodwebsite.dto.product.ProductOverview;
 import com.example.restaurantsfoodwebsite.dto.productCategory.ProductCategoryOverview;
+import com.example.restaurantsfoodwebsite.dto.reserve.CreateReserveDto;
 import com.example.restaurantsfoodwebsite.dto.restaurant.CreateRestaurantDto;
 import com.example.restaurantsfoodwebsite.dto.restaurant.EditRestaurantDto;
 import com.example.restaurantsfoodwebsite.dto.restaurant.RestaurantOverview;
@@ -36,6 +37,7 @@ public class RestaurantController {
     private final ProductService productService;
     private final ProductCategoryService productCategoryService;
     private final EventService eventService;
+    private final ReserveService reserveService;
     private static String ERROR;
 
 
@@ -190,5 +192,18 @@ public class RestaurantController {
         return "restaurantEvents";
     }
 
+    @GetMapping("/{id}/reserve")
+    public String restaurantRezerve(@PathVariable("id") int id, ModelMap modelMap) {
+        modelMap.addAttribute("restaurant", restaurantService.getRestaurant(id));
+        return "addReserve";
+    }
+
+    @PostMapping("/{id}/reserve")
+    public String addReserve(@PathVariable("id") int id, @ModelAttribute CreateReserveDto dto, @AuthenticationPrincipal CurrentUser currentUser, ModelMap modelMap) {
+        modelMap.addAttribute("restaurant", restaurantService.getRestaurant(id));
+
+        reserveService.addReserve(dto, currentUser.getUser());
+        return "redirect:/reservations";
+    }
 }
 

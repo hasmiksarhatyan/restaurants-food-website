@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateReserveDto {
+public class EditReserveDto {
 
     private String reservedDate;
     private String reservedTime;
     private int peopleCount;
+    private String status;
     private String phoneNumber;
-    private Integer restaurantId;
 
 }

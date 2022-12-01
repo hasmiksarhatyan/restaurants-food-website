@@ -4,7 +4,6 @@ import com.example.restaurantsfoodwebsite.dto.product.CreateProductDto;
 import com.example.restaurantsfoodwebsite.dto.product.EditProductDto;
 import com.example.restaurantsfoodwebsite.dto.product.ProductOverview;
 import com.example.restaurantsfoodwebsite.entity.User;
-import com.example.restaurantsfoodwebsite.security.CurrentUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +18,7 @@ public interface ProductService {
 
     List<ProductOverview> findAllById(int id);
 
-    void addProduct(CreateProductDto dto, MultipartFile[] files, CurrentUser currentUser) throws IOException;
+    void addProduct(CreateProductDto dto, MultipartFile[] files, User user) throws IOException;
 
     void editProduct(EditProductDto dto, int id, MultipartFile[] files) throws IOException;
 

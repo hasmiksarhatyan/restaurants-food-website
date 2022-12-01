@@ -28,6 +28,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     private final RestaurantMapper restaurantMapper;
     private final RestaurantRepository restaurantRepository;
+    private final FileUtil fileUtil;
 
     public List<RestaurantOverview> findAll() {
         return restaurantMapper.mapToOverviewList(restaurantRepository.findAll());
@@ -61,14 +62,14 @@ public class RestaurantServiceImpl implements RestaurantService {
         if (restaurantRepository.existsByEmailIgnoreCase(dto.getEmail())) {
             throw new IllegalStateException("Email already in use");
         }
-        dto.setPictures(FileUtil.uploadImages(files));
+        dto.setPictures(fileUtil.uploadImages(files));
         User user = currentUser.getUser();
         restaurantRepository.save(restaurantMapper.mapToEntity(dto, user));
     }
 
     @Override
     public byte[] getRestaurantImage(String fileName) throws IOException {
-        return FileUtil.getImage(fileName);
+        return fileUtil.getImage(fileName);
     }
 
     @Override

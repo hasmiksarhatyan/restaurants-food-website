@@ -4,21 +4,20 @@ import com.example.restaurantsfoodwebsite.dto.reserve.CreateReserveDto;
 import com.example.restaurantsfoodwebsite.dto.reserve.ReserveOverview;
 import com.example.restaurantsfoodwebsite.entity.Reserve;
 import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
-import org.springframework.data.domain.Page;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring")
 public interface ReserveMapper {
+    @Mapping(source = "dto.restaurantId", target = "restaurant.id")
+    Reserve mapToEntity(CreateReserveDto dto);
+    @Mapping(source = "reserve.restaurant", target = "restaurantOverview")
+    @Mapping(source = "reserve.user", target = "userOverview")
+    ReserveOverview mapToOverview(Reserve reserve);
 
-    Reserve mapToEntity(CreateReserveDto createReserveDto);
+    List<ReserveOverview> mapToOverviewList(List<Reserve> reserves);
 
-    ReserveOverview mapToDto(Reserve reserve);
-
-    List<ReserveOverview> mapToDto(List<Reserve> reserves);
-
-    List<ReserveOverview> mapToDto(Page<Reserve> reserves);
 }
 
